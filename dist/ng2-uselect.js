@@ -17118,6 +17118,7 @@ class UselectComponent {
      */
     constructor(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.disabled = false;
         this.highlightedIndex = 0;
         this.isDropDownOpen = false;
         this.onChange = () => { };
@@ -17222,7 +17223,11 @@ class UselectComponent {
         }
         else {
             this.value = item;
-            this.toggleDropDown(false);
+            setTimeout(_ => {
+                this.isDropDownOpen = false;
+                this.search = '';
+                this.onSearchChange();
+            });
         }
         this.onChange(this.value);
         return false;
@@ -17232,6 +17237,8 @@ class UselectComponent {
      * @return {?}
      */
     removeItem(item) {
+        if (this.disabled)
+            return;
         if (this.isMultiple()) {
             undefined(/** @type {?} */ (this.value), val => val.id == item.id);
         }
@@ -17289,6 +17296,8 @@ class UselectComponent {
      * @return {?}
      */
     toggleDropDown(isOpen = true, $event) {
+        if (this.disabled)
+            return;
         if ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -17343,6 +17352,7 @@ UselectComponent.decorators = [
       class="uselect__holder"
       tabindex="0"
       [class.uselect__dropdown--open]="isDropDownOpen"
+      [class.uselect__holder--disabled]="disabled"
       (click)="toggleDropDown(true, $event)">
       <div class="uselect__select input-group"
         [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < value.length)">
@@ -17454,6 +17464,11 @@ UselectComponent.decorators = [
       :host .uselect__holder {
         width: 100%;
         position: relative; }
+        :host .uselect__holder.uselect__holder--disabled .form-control {
+          background-color: #e9ecef;
+          color: #212529; }
+          :host .uselect__holder.uselect__holder--disabled .form-control .btn {
+            display: none; }
         :host .uselect__holder .uselect__select {
           width: 100%; }
           :host .uselect__holder .uselect__select .uselect__btn-dropdown {
@@ -17534,6 +17549,7 @@ UselectComponent.propDecorators = {
     'dropDownTemplate': [{ type: Input, args: ['dropDownTemplate',] },],
     'selectTemplate': [{ type: Input, args: ['selectTemplate',] },],
     'sortKey': [{ type: Input, args: ['sortKey',] },],
+    'disabled': [{ type: Input, args: ['disabled',] },],
     'uselectSearch': [{ type: ViewChild, args: ['uselectSearch',] },],
     'clickedOutside': [{ type: HostListener, args: ['document:click', ['$event'],] },],
 };

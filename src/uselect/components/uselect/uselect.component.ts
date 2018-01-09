@@ -39,6 +39,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('dropDownTemplate') dropDownTemplate?: TemplateRef<any>;
   @Input('selectTemplate') selectTemplate?: TemplateRef<any>;
   @Input('sortKey') sortKey?: string;
+  @Input('disabled') disabled?: boolean = false;
   @ViewChild('uselectSearch') uselectSearch: ElementRef;
   @HostListener('document:click', ['$event'])
   clickedOutside($event) {
@@ -117,13 +118,18 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       this.normalizeSort();
     } else {
       this.value = item;
-      this.toggleDropDown(false);
+      setTimeout(_ => {
+        this.isDropDownOpen = false;
+        this.search = '';
+        this.onSearchChange();
+      });
     }
     this.onChange(this.value);
     return false;
   }
 
   public removeItem(item: IUselectData): void {
+    if (this.disabled) return;
     if (this.isMultiple()) {
       _.remove(<IUselectData[]>this.value, val => val.id == item.id);
     } else {
@@ -165,6 +171,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
+    if (this.disabled) return;
     if ($event) {
       $event.preventDefault();
       $event.stopPropagation();

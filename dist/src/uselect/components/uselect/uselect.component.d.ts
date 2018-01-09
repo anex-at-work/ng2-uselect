@@ -11,6 +11,7 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     dropDownTemplate?: TemplateRef<any>;
     selectTemplate?: TemplateRef<any>;
     sortKey?: string;
+    disabled?: boolean;
     uselectSearch: ElementRef;
     clickedOutside($event: any): void;
     private value;

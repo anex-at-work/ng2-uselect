@@ -8,6 +8,15 @@
   .uselect__holder {
     width: 100%;
     position: relative;
+    &.uselect__holder--disabled {
+      .form-control {
+        background-color: $gray-200;
+        color: color-yiq($gray-200);
+        .btn {
+          display: none;
+        }
+      }
+    }
     .uselect__select {
       width: 100%;
       .uselect__btn-dropdown {
