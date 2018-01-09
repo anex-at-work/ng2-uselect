@@ -17196,7 +17196,7 @@ class UselectComponent {
     dropDownValue(item) {
         if (this.dropDownValueFunc)
             return this.dropDownValueFunc(item);
-        return /** @type {?} */ (item.value);
+        return /** @type {?} */ (item.id);
     }
     /**
      * @param {?} item
@@ -17205,7 +17205,7 @@ class UselectComponent {
     selectedValue(item) {
         if (this.selectedValueFunc)
             return this.selectedValueFunc(item);
-        return /** @type {?} */ (item.value);
+        return /** @type {?} */ (item.id);
     }
     /**
      * @param {?} item

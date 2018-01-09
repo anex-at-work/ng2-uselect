@@ -15695,7 +15695,7 @@ var UselectComponent = /** @class */ (function () {
     UselectComponent.prototype.dropDownValue = function (item) {
         if (this.dropDownValueFunc)
             return this.dropDownValueFunc(item);
-        return /** @type {?} */ (item.value);
+        return /** @type {?} */ (item.id);
     };
     /**
      * @param {?} item
@@ -15704,7 +15704,7 @@ var UselectComponent = /** @class */ (function () {
     UselectComponent.prototype.selectedValue = function (item) {
         if (this.selectedValueFunc)
             return this.selectedValueFunc(item);
-        return /** @type {?} */ (item.value);
+        return /** @type {?} */ (item.id);
     };
     /**
      * @param {?} item

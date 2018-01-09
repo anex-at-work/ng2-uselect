@@ -2,7 +2,6 @@ import { Observable } from 'rxjs/Observable';
 
 export interface IUselectData {
   id: number | string | {};
-  value: number | string | {} | [any];
 }
 
 export interface IUselectServiceItem {

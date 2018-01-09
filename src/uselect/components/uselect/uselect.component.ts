@@ -101,12 +101,12 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   private dropDownValue(item: IUselectData): string {
     if (this.dropDownValueFunc) return this.dropDownValueFunc(item);
-    return <string>item.value;
+    return <string>item.id;
   }
 
   private selectedValue(item: IUselectData): string {
     if (this.selectedValueFunc) return this.selectedValueFunc(item);
-    return <string>item.value;
+    return <string>item.id;
   }
 
   private selectItem(item: IUselectData): boolean {
