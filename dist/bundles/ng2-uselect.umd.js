@@ -15711,7 +15711,6 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.selectItem = function (item) {
-        var _this = this;
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
                 undefined(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
@@ -15722,9 +15721,7 @@ var UselectComponent = /** @class */ (function () {
         }
         else {
             this.value = item;
-            setTimeout(function (_) {
-                _this.isDropDownOpen = false;
-            });
+            this.toggleDropDown(false);
         }
         this.onChange(this.value);
         return false;
