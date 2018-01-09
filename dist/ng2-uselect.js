@@ -17222,6 +17222,7 @@ class UselectComponent {
         }
         else {
             this.value = item;
+            this.isDropDownOpen = false;
         }
         this.onChange(this.value);
         return false;

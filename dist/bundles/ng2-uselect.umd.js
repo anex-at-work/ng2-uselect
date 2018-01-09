@@ -15721,6 +15721,7 @@ var UselectComponent = /** @class */ (function () {
         }
         else {
             this.value = item;
+            this.isDropDownOpen = false;
         }
         this.onChange(this.value);
         return false;
