@@ -17453,17 +17453,23 @@ UselectComponent.decorators = [
       :host .uselect__holder {
         width: 100%;
         position: relative; }
-        :host .uselect__holder .uselect__select .uselect__btn-dropdown {
-          height: 100%; }
-        :host .uselect__holder .uselect__select .uselect__select-item {
-          display: -webkit-box;
-          display: -ms-flexbox;
-          display: flex; }
-          :host .uselect__holder .uselect__select .uselect__select-item + .uselect__select-item {
-            margin-top: 3px; }
-          :host .uselect__holder .uselect__select .uselect__select-item span {
-            max-width: 85%;
-            overflow: hidden; }
+        :host .uselect__holder .uselect__select {
+          width: 100%; }
+          :host .uselect__holder .uselect__select .uselect__btn-dropdown {
+            height: 100%; }
+          :host .uselect__holder .uselect__select .uselect__select-item {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            width: 100%;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center; }
+            :host .uselect__holder .uselect__select .uselect__select-item + .uselect__select-item {
+              margin-top: 3px; }
+            :host .uselect__holder .uselect__select .uselect__select-item span {
+              max-width: 85%;
+              overflow: hidden; }
         :host .uselect__holder .uselect__dropdown {
           position: absolute;
           z-index: 2147483647;
@@ -17477,7 +17483,8 @@ UselectComponent.decorators = [
           border-top-left-radius: 0;
           border-top-right-radius: 0;
           border-top: none;
-          padding: 0; }
+          padding: 0;
+          width: 100%; }
           :host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__search {
             width: 100%;
             padding: 5px; }

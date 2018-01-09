@@ -9,11 +9,14 @@
     width: 100%;
     position: relative;
     .uselect__select {
+      width: 100%;
       .uselect__btn-dropdown {
         height: 100%;
       }
       .uselect__select-item {
         display: flex;
+        width: 100%;
+        align-items: center;
         & + .uselect__select-item {
           margin-top: 3px;
         }
@@ -43,7 +46,7 @@
         border-top-right-radius: 0;
         border-top: none;
         padding: 0;
-
+        width: 100%;
         .uselect__search {
           width: 100%;
           padding: 5px;
