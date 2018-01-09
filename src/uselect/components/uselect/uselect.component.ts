@@ -78,7 +78,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private sortValue(): IUselectData | IUselectData[] {
     if (!(this.value instanceof Array)) return <IUselectData>this.value;
     if (!this.sortKey) return <IUselectData[]>this.value;
-    return _.sortBy(this.value, val => {
+    return <IUselectData[]>_.sortBy(this.value, val => {
       if (
         !(val.value instanceof Object) ||
         !(<Object>val.value).hasOwnProperty(this.sortKey)
