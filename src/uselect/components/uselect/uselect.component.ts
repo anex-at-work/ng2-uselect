@@ -117,7 +117,9 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       this.normalizeSort();
     } else {
       this.value = item;
-      this.isDropDownOpen = false;
+      setTimeout(_ => {
+        this.isDropDownOpen = false;
+      });
     }
     this.onChange(this.value);
     return false;
