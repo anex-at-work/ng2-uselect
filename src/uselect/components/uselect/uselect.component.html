@@ -1,0 +1,88 @@
+<div
+  *ngIf="allCheck()"
+  class="uselect__holder"
+  tabindex="0"
+  [class.uselect__dropdown--open]="isDropDownOpen"
+  (click)="toggleDropDown(true, $event)">
+  <div class="uselect__select input-group"
+    [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < value.length)">
+    <div class="form-control">
+      <div *ngIf="value && isMultiple()"
+        class="uselect__selected-items"
+        dnd-sortable-container [sortableData]="value">
+        <ng-container
+          *ngFor="let selectedItem of value; let i = index; trackByIndex">
+          <div class="uselect__select-item" dnd-sortable [sortableIndex]="i"
+            (onDragSuccess)="onItemDrop($event)">
+            <span>
+              <ng-container
+                *ngTemplateOutlet="selectTemplate; context: {$implicit: selectedItem}"></ng-container>
+              <ng-container
+                *ngIf="!selectTemplate">
+                {{selectedValue(selectedItem)}}
+              </ng-container>
+            </span>
+            <div class="btn-group ml-auto">
+              <button *ngIf="sortKey"
+                type="button" class="btn btn-light btn-sm" aria-label="Move"
+                dnd-sortable-handle>
+                <span aria-hidden="true">&#x205D;</span>
+              </button>
+              <button type="button" class="btn btn-light btn-sm" aria-label="Move"
+                (click)="removeItem(selectedItem)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="value && !isMultiple()" class="uselect__selected-items">
+        <div class="uselect__select-item">
+          <ng-container
+            *ngTemplateOutlet="selectTemplate; context: {$implicit: value}"></ng-container>
+          <ng-container
+            *ngIf="!selectTemplate">
+            {{selectedValue(value)}}
+          </ng-container>
+          <div class="btn-group ml-auto">
+            <button type="button" class="btn btn-light btn-sm" aria-label="Move"
+              (click)="removeItem(selectedItem)">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!value || 0 == value.length"
+        class="uselect__placeholder">
+        {{placeholder}}
+      </div>
+    </div>
+    <div *ngIf="isMultiple()" class="input-group-append">
+      <button class="uselect__btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button"></button>
+    </div>
+  </div>
+  <div class="uselect__dropdown form-control">
+    <div class="uselect__search input-group">
+      <input type="text" class="form-control"
+        [(ngModel)]="search"
+        (ngModelChange)="onSearchChange()"
+        (keydown)="onSearchKeydown($event)"
+        tabindex="0"
+        #uselectSearch />
+    </div>
+    <div class="uselect__items">
+      <div *ngFor="let dataItem of items; let i = index; trackByIndex"
+        class="uselect__item"
+        [class.uselect__item--selected]="isCurrent(dataItem)"
+        [class.uselect__item--highlighted]="highlightedIndex == i"
+        (click)="selectItem(dataItem)">
+        <ng-container
+          *ngTemplateOutlet="dropDownTemplate; context: {$implicit: dataItem}">
+        </ng-container>
+        <ng-container *ngIf="!dropDownTemplate">
+          {{dropDownValue(dataItem)}}
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
