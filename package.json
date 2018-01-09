@@ -6,7 +6,8 @@
   "module": "ng2-uselect.es5.js",
   "scripts": {
     "test": "ng test -sr",
-    "build": "ng-packagr -p ng-package.json"
+    "clean": "rimraf dist",
+    "build": "rimraf dist && ng-packagr -p ng-package.json"
   },
   "repository": {
     "type": "git",
