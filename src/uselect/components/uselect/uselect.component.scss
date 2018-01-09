@@ -13,16 +13,19 @@
       .uselect__btn-dropdown {
         height: 100%;
       }
-      .uselect__select-item {
-        display: flex;
+      .uselect__selected-items {
         width: 100%;
-        align-items: center;
-        & + .uselect__select-item {
-          margin-top: 3px;
-        }
-        span {
-          max-width: 85%;
-          overflow: hidden;
+        .uselect__select-item {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          & + .uselect__select-item {
+            margin-top: 3px;
+          }
+          span {
+            max-width: 85%;
+            overflow: hidden;
+          }
         }
       }
     }
