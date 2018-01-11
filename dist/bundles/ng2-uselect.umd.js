@@ -15667,7 +15667,7 @@ var UselectComponent = /** @class */ (function () {
      */
     UselectComponent.prototype.sortValue = function () {
         var _this = this;
-        if (!(this.value instanceof Array))
+        if (!this.isMultiple())
             return /** @type {?} */ (this.value);
         if (!this.sortKey)
             return /** @type {?} */ (this.value);
@@ -15682,8 +15682,8 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.normalizeSort = function () {
-        if (this.value instanceof Array && this.sortKey) {
-            for (var /** @type {?} */ i = 0; i < this.value.length; i++) {
+        if (this.isMultiple() && this.sortKey) {
+            for (var /** @type {?} */ i = 0; i < ((this.value)).length; i++) {
                 this.value[i][this.sortKey] = i;
             }
             this.onChange(this.value);

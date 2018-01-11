@@ -77,7 +77,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private sortValue(): IUselectData | IUselectData[] {
-    if (!(this.value instanceof Array)) return <IUselectData>this.value;
+    if (!this.isMultiple()) return <IUselectData>this.value;
     if (!this.sortKey) return <IUselectData[]>this.value;
     return <IUselectData[]>_.sortBy(this.value, val => {
       if (
@@ -92,8 +92,8 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private normalizeSort(): void {
-    if (this.value instanceof Array && this.sortKey) {
-      for (let i = 0; i < this.value.length; i++) {
+    if (this.isMultiple() && this.sortKey) {
+      for (let i = 0; i < (<IUselectData[]>this.value).length; i++) {
         this.value[i][this.sortKey] = i;
       }
       this.onChange(this.value);

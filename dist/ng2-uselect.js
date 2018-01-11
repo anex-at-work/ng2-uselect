@@ -17168,7 +17168,7 @@ class UselectComponent {
      * @return {?}
      */
     sortValue() {
-        if (!(this.value instanceof Array))
+        if (!this.isMultiple())
             return /** @type {?} */ (this.value);
         if (!this.sortKey)
             return /** @type {?} */ (this.value);
@@ -17183,8 +17183,8 @@ class UselectComponent {
      * @return {?}
      */
     normalizeSort() {
-        if (this.value instanceof Array && this.sortKey) {
-            for (let /** @type {?} */ i = 0; i < this.value.length; i++) {
+        if (this.isMultiple() && this.sortKey) {
+            for (let /** @type {?} */ i = 0; i < ((this.value)).length; i++) {
                 this.value[i][this.sortKey] = i;
             }
             this.onChange(this.value);
