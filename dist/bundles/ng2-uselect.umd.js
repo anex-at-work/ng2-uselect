@@ -15671,7 +15671,7 @@ var UselectComponent = /** @class */ (function () {
             return /** @type {?} */ (this.value);
         if (!this.sortKey)
             return /** @type {?} */ (this.value);
-        return /** @type {?} */ (undefined(this.value, function (val) {
+        return /** @type {?} */ (lodash.sortBy(this.value, function (val) {
             if (!(val.value instanceof Object) ||
                 !((val.value)).hasOwnProperty(_this.sortKey))
                 throw new Error('Sort key must be a part of value. Ex: {id: 1, value: {string: "example", sort: 1}}.');
@@ -15715,7 +15715,7 @@ var UselectComponent = /** @class */ (function () {
         var _this = this;
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                undefined(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
+                lodash.remove(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
             }
             else
                 ((this.value)).push(item);
@@ -15723,7 +15723,7 @@ var UselectComponent = /** @class */ (function () {
         }
         else {
             this.value = item;
-            setTimeout(function (_) {
+            setTimeout(function (_$$1) {
                 _this.isDropDownOpen = false;
                 _this.search = '';
                 _this.onSearchChange();
@@ -15740,7 +15740,7 @@ var UselectComponent = /** @class */ (function () {
         if (this.disabled)
             return;
         if (this.isMultiple()) {
-            undefined(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
+            lodash.remove(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
         }
         else {
             this.value = undefined;
@@ -15810,7 +15810,7 @@ var UselectComponent = /** @class */ (function () {
         }
         this.isDropDownOpen = isOpen;
         if (isOpen) {
-            setTimeout(function (_) {
+            setTimeout(function (_$$1) {
                 _this.uselectSearch.nativeElement.focus();
             });
         }
@@ -15829,7 +15829,7 @@ var UselectComponent = /** @class */ (function () {
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return undefined(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
+            return lodash.some(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
         }
         return ((this.value)).id == item.id;
     };

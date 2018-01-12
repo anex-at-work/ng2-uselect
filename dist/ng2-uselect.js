@@ -17172,7 +17172,7 @@ class UselectComponent {
             return /** @type {?} */ (this.value);
         if (!this.sortKey)
             return /** @type {?} */ (this.value);
-        return /** @type {?} */ (undefined(this.value, val => {
+        return /** @type {?} */ (lodash.sortBy(this.value, val => {
             if (!(val.value instanceof Object) ||
                 !((val.value)).hasOwnProperty(this.sortKey))
                 throw new Error('Sort key must be a part of value. Ex: {id: 1, value: {string: "example", sort: 1}}.');
@@ -17215,7 +17215,7 @@ class UselectComponent {
     selectItem(item) {
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                undefined(/** @type {?} */ (this.value), val => val.id == item.id);
+                lodash.remove(/** @type {?} */ (this.value), val => val.id == item.id);
             }
             else
                 ((this.value)).push(item);
@@ -17223,7 +17223,7 @@ class UselectComponent {
         }
         else {
             this.value = item;
-            setTimeout(_ => {
+            setTimeout(_$$1 => {
                 this.isDropDownOpen = false;
                 this.search = '';
                 this.onSearchChange();
@@ -17240,7 +17240,7 @@ class UselectComponent {
         if (this.disabled)
             return;
         if (this.isMultiple()) {
-            undefined(/** @type {?} */ (this.value), val => val.id == item.id);
+            lodash.remove(/** @type {?} */ (this.value), val => val.id == item.id);
         }
         else {
             this.value = undefined;
@@ -17307,7 +17307,7 @@ class UselectComponent {
         }
         this.isDropDownOpen = isOpen;
         if (isOpen) {
-            setTimeout(_ => {
+            setTimeout(_$$1 => {
                 this.uselectSearch.nativeElement.focus();
             });
         }
@@ -17326,7 +17326,7 @@ class UselectComponent {
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return undefined(/** @type {?} */ (this.value), val => val.id == item.id);
+            return lodash.some(/** @type {?} */ (this.value), val => val.id == item.id);
         }
         return ((this.value)).id == item.id;
     }
