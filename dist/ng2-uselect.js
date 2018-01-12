@@ -17324,6 +17324,8 @@ class UselectComponent {
         if (!this.value)
             return false;
         if (this.isMultiple()) {
+            if (0 == ((this.value)).length)
+                return false;
             return undefined(/** @type {?} */ (this.value), val => val.id == item.id);
         }
         return ((this.value)).id == item.id;
@@ -17357,7 +17359,7 @@ UselectComponent.decorators = [
       <div class="uselect__select input-group"
         [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < value.length)">
         <div class="form-control">
-          <div *ngIf="value && isMultiple()"
+          <div *ngIf="value && isMultiple() && 0 < value.length"
             class="uselect__selected-items"
             dnd-sortable-container [sortableData]="value">
             <ng-container

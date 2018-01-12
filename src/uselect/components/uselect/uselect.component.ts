@@ -195,6 +195,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private isCurrent(item: IUselectData): boolean {
     if (!this.value) return false;
     if (this.isMultiple()) {
+      if (0 == (<IUselectData[]>this.value).length) return false;
       return _.some(<IUselectData[]>this.value, val => val.id == item.id);
     }
     return (<IUselectData>this.value).id == item.id;

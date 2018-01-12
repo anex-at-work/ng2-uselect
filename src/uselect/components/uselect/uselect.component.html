@@ -8,7 +8,7 @@
   <div class="uselect__select input-group"
     [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < value.length)">
     <div class="form-control">
-      <div *ngIf="value && isMultiple()"
+      <div *ngIf="value && isMultiple() && 0 < value.length"
         class="uselect__selected-items"
         dnd-sortable-container [sortableData]="value">
         <ng-container
