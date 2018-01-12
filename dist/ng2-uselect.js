@@ -17118,8 +17118,12 @@ class UselectComponent {
      */
     constructor(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.servicePipe = res => {
+            return res;
+        };
         this.disabled = false;
         this.highlightedIndex = 0;
+        this.search = '';
         this.isDropDownOpen = false;
         this.onChange = () => { };
         this.onTouched = () => { };
@@ -17224,8 +17228,10 @@ class UselectComponent {
             this.value = item;
             setTimeout(_$$1 => {
                 this.isDropDownOpen = false;
-                this.search = '';
-                this.onSearchChange();
+                if ('' != this.search) {
+                    this.search = '';
+                    this.onSearchChange();
+                }
             });
         }
         this.onChange(this.value);
@@ -17250,8 +17256,12 @@ class UselectComponent {
      * @return {?}
      */
     onSearchChange() {
-        // @todo: bad solution
-        this.service.getItems(this.search).subscribe(data => (this.items = data));
+        this.service
+            .getItems(this.search)
+            .pipe(res => this.servicePipe.apply(lodash, [res, this.pipeArgs]))
+            .subscribe(data => {
+            this.items = /** @type {?} */ (data);
+        });
         this.highlightedIndex = 0;
     }
     /**
@@ -17305,16 +17315,18 @@ class UselectComponent {
                 return;
         }
         this.isDropDownOpen = isOpen;
-        if (this.isDropDownOpen && !this.items)
-            this.service.getItems(this.search).subscribe(data => (this.items = data));
         if (isOpen) {
+            if (!this.items)
+                this.onSearchChange();
             setTimeout(_$$1 => {
                 this.uselectSearch.nativeElement.focus();
             });
         }
         else {
-            this.search = '';
-            this.onSearchChange();
+            if ('' != this.search) {
+                this.search = '';
+                this.onSearchChange();
+            }
         }
     }
     /**
@@ -17547,6 +17559,8 @@ UselectComponent.ctorParameters = () => [
 UselectComponent.propDecorators = {
     'placeholder': [{ type: Input, args: ['placeholder',] },],
     'service': [{ type: Input, args: ['service',] },],
+    'servicePipe': [{ type: Input, args: ['pipe',] },],
+    'pipeArgs': [{ type: Input, args: ['pipeArgs',] },],
     'dropDownValueFunc': [{ type: Input, args: ['dropDownValue',] },],
     'selectedValueFunc': [{ type: Input, args: ['selectedValue',] },],
     'dropDownTemplate': [{ type: Input, args: ['dropDownTemplate',] },],

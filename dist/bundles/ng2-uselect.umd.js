@@ -15615,8 +15615,12 @@ var UselectComponent = /** @class */ (function () {
      */
     function UselectComponent(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.servicePipe = function (res) {
+            return res;
+        };
         this.disabled = false;
         this.highlightedIndex = 0;
+        this.search = '';
         this.isDropDownOpen = false;
         this.onChange = function () { };
         this.onTouched = function () { };
@@ -15723,8 +15727,10 @@ var UselectComponent = /** @class */ (function () {
             this.value = item;
             setTimeout(function (_$$1) {
                 _this.isDropDownOpen = false;
-                _this.search = '';
-                _this.onSearchChange();
+                if ('' != _this.search) {
+                    _this.search = '';
+                    _this.onSearchChange();
+                }
             });
         }
         this.onChange(this.value);
@@ -15750,8 +15756,12 @@ var UselectComponent = /** @class */ (function () {
      */
     UselectComponent.prototype.onSearchChange = function () {
         var _this = this;
-        // @todo: bad solution
-        this.service.getItems(this.search).subscribe(function (data) { return (_this.items = data); });
+        this.service
+            .getItems(this.search)
+            .pipe(function (res) { return _this.servicePipe.apply(lodash, [res, _this.pipeArgs]); })
+            .subscribe(function (data) {
+            _this.items = /** @type {?} */ (data);
+        });
         this.highlightedIndex = 0;
     };
     /**
@@ -15807,16 +15817,18 @@ var UselectComponent = /** @class */ (function () {
                 return;
         }
         this.isDropDownOpen = isOpen;
-        if (this.isDropDownOpen && !this.items)
-            this.service.getItems(this.search).subscribe(function (data) { return (_this.items = data); });
         if (isOpen) {
+            if (!this.items)
+                this.onSearchChange();
             setTimeout(function (_$$1) {
                 _this.uselectSearch.nativeElement.focus();
             });
         }
         else {
-            this.search = '';
-            this.onSearchChange();
+            if ('' != this.search) {
+                this.search = '';
+                this.onSearchChange();
+            }
         }
     };
     /**
@@ -15872,6 +15884,8 @@ UselectComponent.ctorParameters = function () { return [
 UselectComponent.propDecorators = {
     'placeholder': [{ type: core.Input, args: ['placeholder',] },],
     'service': [{ type: core.Input, args: ['service',] },],
+    'servicePipe': [{ type: core.Input, args: ['pipe',] },],
+    'pipeArgs': [{ type: core.Input, args: ['pipeArgs',] },],
     'dropDownValueFunc': [{ type: core.Input, args: ['dropDownValue',] },],
     'selectedValueFunc': [{ type: core.Input, args: ['selectedValue',] },],
     'dropDownTemplate': [{ type: core.Input, args: ['dropDownTemplate',] },],

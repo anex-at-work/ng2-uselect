@@ -34,6 +34,11 @@ import {
 export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('placeholder') placeholder?: string;
   @Input('service') service: IUselectServiceItem;
+  @Input('pipe')
+  servicePipe?: (Observable, any?) => Observable<IUselectData[]> = res => {
+    return res;
+  };
+  @Input('pipeArgs') pipeArgs?: any[];
   @Input('dropDownValue') dropDownValueFunc?: (IUselectData) => string;
   @Input('selectedValue') selectedValueFunc?: (IUselectData) => string;
   @Input('dropDownTemplate') dropDownTemplate?: TemplateRef<any>;
@@ -48,7 +53,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private value: IUselectData[] | IUselectData; //for ngModel
   private items: IUselectData[]; //for service items
   private highlightedIndex: number = 0;
-  private search: string;
+  private search: string = '';
   private isDropDownOpen: boolean = false;
   private onChange: any = () => {};
   private onTouched: any = () => {};
@@ -119,8 +124,10 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       this.value = item;
       setTimeout(_ => {
         this.isDropDownOpen = false;
-        this.search = '';
-        this.onSearchChange();
+        if ('' != this.search) {
+          this.search = '';
+          this.onSearchChange();
+        }
       });
     }
     this.onChange(this.value);
@@ -138,8 +145,12 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private onSearchChange(): void {
-    // @todo: bad solution
-    this.service.getItems(this.search).subscribe(data => (this.items = data));
+    this.service
+      .getItems(this.search)
+      .pipe(res => this.servicePipe.apply(_, [res, this.pipeArgs]))
+      .subscribe(data => {
+        this.items = <IUselectData[]>data;
+      });
     this.highlightedIndex = 0;
   }
 
@@ -181,15 +192,16 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
         return;
     }
     this.isDropDownOpen = isOpen;
-    if (this.isDropDownOpen && !this.items)
-      this.service.getItems(this.search).subscribe(data => (this.items = data));
     if (isOpen) {
+      if (!this.items) this.onSearchChange();
       setTimeout(_ => {
         this.uselectSearch.nativeElement.focus();
       });
     } else {
-      this.search = '';
-      this.onSearchChange();
+      if ('' != this.search) {
+        this.search = '';
+        this.onSearchChange();
+      }
     }
   }
 

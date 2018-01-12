@@ -1,11 +1,14 @@
 import { OnInit, TemplateRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 import { UselectDefaultConfig } from './../../classes/uselect-default-config.class';
 import { IUselectData, IUselectServiceItem } from './../../classes/uselect-service-items.interface';
 export declare class UselectComponent implements OnInit, ControlValueAccessor {
     private defaultConfig;
     placeholder?: string;
     service: IUselectServiceItem;
+    servicePipe?: (Observable, any?) => Observable<IUselectData[]>;
+    pipeArgs?: any[];
     dropDownValueFunc?: (IUselectData) => string;
     selectedValueFunc?: (IUselectData) => string;
     dropDownTemplate?: TemplateRef<any>;
