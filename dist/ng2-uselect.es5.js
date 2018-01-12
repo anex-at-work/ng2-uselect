@@ -15629,12 +15629,10 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.ngOnInit = function () {
-        var _this = this;
         if (!this.placeholder)
             this.placeholder = this.defaultConfig.placeholder;
         if (!this.service)
             throw new Error('Service for Uselect component are missed!');
-        this.service.getItems(this.search).subscribe(function (data) { return (_this.items = data); });
     };
     /**
      * @param {?} value
@@ -15806,6 +15804,8 @@ var UselectComponent = /** @class */ (function () {
                 return;
         }
         this.isDropDownOpen = isOpen;
+        if (this.isDropDownOpen && !this.items)
+            this.service.getItems(this.search).subscribe(function (data) { return (_this.items = data); });
         if (isOpen) {
             setTimeout(function (_$$1) {
                 _this.uselectSearch.nativeElement.focus();

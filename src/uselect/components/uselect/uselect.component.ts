@@ -59,7 +59,6 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     if (!this.placeholder) this.placeholder = this.defaultConfig.placeholder;
     if (!this.service)
       throw new Error('Service for Uselect component are missed!');
-    this.service.getItems(this.search).subscribe(data => (this.items = data));
   }
 
   writeValue(value: IUselectData[] | IUselectData): void {
@@ -182,6 +181,8 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
         return;
     }
     this.isDropDownOpen = isOpen;
+    if (this.isDropDownOpen && !this.items)
+      this.service.getItems(this.search).subscribe(data => (this.items = data));
     if (isOpen) {
       setTimeout(_ => {
         this.uselectSearch.nativeElement.focus();
