@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import * as _ from 'lodash';
+import * as lodash from 'lodash';
 
 import { UselectDefaultConfig } from './../../classes/uselect-default-config.class';
 import {
@@ -79,7 +79,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private sortValue(): IUselectData | IUselectData[] {
     if (!this.isMultiple()) return <IUselectData>this.value;
     if (!this.sortKey) return <IUselectData[]>this.value;
-    return <IUselectData[]>_.sortBy(this.value, val => {
+    return <IUselectData[]>lodash.sortBy(this.value, val => {
       if (
         !(val.value instanceof Object) ||
         !(<Object>val.value).hasOwnProperty(this.sortKey)
@@ -113,7 +113,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private selectItem(item: IUselectData): boolean {
     if (this.isMultiple()) {
       if (this.isCurrent(item)) {
-        _.remove(<IUselectData[]>this.value, val => val.id == item.id);
+        lodash.remove(<IUselectData[]>this.value, val => val.id == item.id);
       } else (<IUselectData[]>this.value).push(item);
       this.normalizeSort();
     } else {
@@ -131,7 +131,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   public removeItem(item: IUselectData): void {
     if (this.disabled) return;
     if (this.isMultiple()) {
-      _.remove(<IUselectData[]>this.value, val => val.id == item.id);
+      lodash.remove(<IUselectData[]>this.value, val => val.id == item.id);
     } else {
       this.value = undefined;
     }
@@ -196,7 +196,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     if (!this.value) return false;
     if (this.isMultiple()) {
       if (0 == (<IUselectData[]>this.value).length) return false;
-      return _.some(<IUselectData[]>this.value, val => val.id == item.id);
+      return lodash.some(<IUselectData[]>this.value, val => val.id == item.id);
     }
     return (<IUselectData>this.value).id == item.id;
   }
