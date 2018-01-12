@@ -15755,7 +15755,7 @@ var UselectComponent = /** @class */ (function () {
         var _this = this;
         this.service
             .getItems(this.search)
-            .pipe(function (res) { return _this.servicePipe.apply(lodash, [res, _this.pipeArgs]); })
+            .pipe(function (res) { return _this.servicePipe.apply(undefined, [res, _this.pipeArgs]); })
             .subscribe(function (data) {
             _this.items = /** @type {?} */ (data);
         });

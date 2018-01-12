@@ -17258,7 +17258,7 @@ class UselectComponent {
     onSearchChange() {
         this.service
             .getItems(this.search)
-            .pipe(res => this.servicePipe.apply(lodash, [res, this.pipeArgs]))
+            .pipe(res => this.servicePipe.apply(undefined, [res, this.pipeArgs]))
             .subscribe(data => {
             this.items = /** @type {?} */ (data);
         });

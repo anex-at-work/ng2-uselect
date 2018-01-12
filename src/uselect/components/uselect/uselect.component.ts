@@ -147,7 +147,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private onSearchChange(): void {
     this.service
       .getItems(this.search)
-      .pipe(res => this.servicePipe.apply(_, [res, this.pipeArgs]))
+      .pipe(res => this.servicePipe.apply(undefined, [res, this.pipeArgs]))
       .subscribe(data => {
         this.items = <IUselectData[]>data;
       });
