@@ -17408,7 +17408,7 @@ UselectComponent.decorators = [
           </div>
         </div>
         <div *ngIf="isMultiple()" class="input-group-append">
-          <button class="uselect__btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button"></button>
+          <button class="uselect__btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" (click)="toggleDropDown(!isDropDownOpen)"></button>
         </div>
       </div>
       <div class="uselect__dropdown form-control">
