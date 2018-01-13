@@ -15655,7 +15655,7 @@ var UselectComponent = /** @class */ (function () {
                     throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
                 return val[_this.sortKey];
             }));
-            this.normalizeSort();
+            //this.normalizeSort();
         }
     };
     /**
