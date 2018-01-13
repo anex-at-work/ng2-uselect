@@ -23,12 +23,12 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     private highlightedIndex;
     private search;
     private isDropDownOpen;
-    private onChange;
-    private onTouched;
+    private _onChange;
+    private _onTouched;
     constructor(defaultConfig: UselectDefaultConfig);
     ngOnInit(): void;
     writeValue(value: IUselectData[] | IUselectData): void;
-    registerOnChange(fn: any): void;
+    registerOnChange(fn: (_: any) => void): void;
     registerOnTouched(fn: any): void;
     private normalizeSort();
     private dropDownValue(item);

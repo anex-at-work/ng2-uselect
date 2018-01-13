@@ -56,8 +56,8 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private highlightedIndex: number = 0;
   private search: string = '';
   private isDropDownOpen: boolean = false;
-  private onChange: any = () => {};
-  private onTouched: any = () => {};
+  private _onChange: any = (_: any) => {};
+  private _onTouched: any = () => {};
 
   constructor(private defaultConfig: UselectDefaultConfig) {}
 
@@ -85,12 +85,12 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: any) {
-    this.onChange = fn;
+  registerOnChange(fn: (_: any) => void): void {
+    this._onChange = fn;
   }
 
   registerOnTouched(fn: any) {
-    this.onTouched = fn;
+    this._onTouched = fn;
   }
 
   private normalizeSort(): void {
@@ -98,7 +98,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       for (let i = 0; i < (<IUselectData[]>this.value).length; i++) {
         this.value[i][this.sortKey] = i;
       }
-      //this.onChange(this.value);
+      this._onChange(this.value);
     }
   }
 
@@ -131,7 +131,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
         }
       });
     }
-    this.onChange(this.value);
+    this._onChange(this.value);
     return false;
   }
 
@@ -145,7 +145,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     } else {
       this.value = undefined;
     }
-    this.onChange(this.value);
+    this._onChange(this.value);
   }
 
   private onSearchChange(): void {

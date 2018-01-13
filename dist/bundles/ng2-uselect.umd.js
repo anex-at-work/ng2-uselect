@@ -15623,8 +15623,8 @@ var UselectComponent = /** @class */ (function () {
         this.highlightedIndex = 0;
         this.search = '';
         this.isDropDownOpen = false;
-        this.onChange = function () { };
-        this.onTouched = function () { };
+        this._onChange = function (_$$1) { };
+        this._onTouched = function () { };
     }
     /**
      * @param {?} $event
@@ -15666,14 +15666,14 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.registerOnChange = function (fn) {
-        this.onChange = fn;
+        this._onChange = fn;
     };
     /**
      * @param {?} fn
      * @return {?}
      */
     UselectComponent.prototype.registerOnTouched = function (fn) {
-        this.onTouched = fn;
+        this._onTouched = fn;
     };
     /**
      * @return {?}
@@ -15683,7 +15683,7 @@ var UselectComponent = /** @class */ (function () {
             for (var /** @type {?} */ i = 0; i < ((this.value)).length; i++) {
                 this.value[i][this.sortKey] = i;
             }
-            //this.onChange(this.value);
+            this._onChange(this.value);
         }
     };
     /**
@@ -15728,7 +15728,7 @@ var UselectComponent = /** @class */ (function () {
                 }
             });
         }
-        this.onChange(this.value);
+        this._onChange(this.value);
         return false;
     };
     /**
@@ -15745,7 +15745,7 @@ var UselectComponent = /** @class */ (function () {
         else {
             this.value = undefined;
         }
-        this.onChange(this.value);
+        this._onChange(this.value);
     };
     /**
      * @return {?}

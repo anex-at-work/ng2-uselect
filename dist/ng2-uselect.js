@@ -17126,8 +17126,8 @@ class UselectComponent {
         this.highlightedIndex = 0;
         this.search = '';
         this.isDropDownOpen = false;
-        this.onChange = () => { };
-        this.onTouched = () => { };
+        this._onChange = (_$$1) => { };
+        this._onTouched = () => { };
     }
     /**
      * @param {?} $event
@@ -17168,14 +17168,14 @@ class UselectComponent {
      * @return {?}
      */
     registerOnChange(fn) {
-        this.onChange = fn;
+        this._onChange = fn;
     }
     /**
      * @param {?} fn
      * @return {?}
      */
     registerOnTouched(fn) {
-        this.onTouched = fn;
+        this._onTouched = fn;
     }
     /**
      * @return {?}
@@ -17185,7 +17185,7 @@ class UselectComponent {
             for (let /** @type {?} */ i = 0; i < ((this.value)).length; i++) {
                 this.value[i][this.sortKey] = i;
             }
-            //this.onChange(this.value);
+            this._onChange(this.value);
         }
     }
     /**
@@ -17229,7 +17229,7 @@ class UselectComponent {
                 }
             });
         }
-        this.onChange(this.value);
+        this._onChange(this.value);
         return false;
     }
     /**
@@ -17245,7 +17245,7 @@ class UselectComponent {
         else {
             this.value = undefined;
         }
-        this.onChange(this.value);
+        this._onChange(this.value);
     }
     /**
      * @return {?}
