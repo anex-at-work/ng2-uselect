@@ -70,7 +70,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   writeValue(value: IUselectData[] | IUselectData): void {
     this.value = value;
     this.value = this.sortValue();
-    this.normalizeSort();
+    //this.normalizeSort();
   }
 
   registerOnChange(fn: any) {

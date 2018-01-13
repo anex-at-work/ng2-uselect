@@ -17152,7 +17152,7 @@ class UselectComponent {
     writeValue(value) {
         this.value = value;
         this.value = this.sortValue();
-        this.normalizeSort();
+        //this.normalizeSort();
     }
     /**
      * @param {?} fn

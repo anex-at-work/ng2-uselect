@@ -15646,7 +15646,7 @@ var UselectComponent = /** @class */ (function () {
     UselectComponent.prototype.writeValue = function (value) {
         this.value = value;
         this.value = this.sortValue();
-        this.normalizeSort();
+        //this.normalizeSort();
     };
     /**
      * @param {?} fn
