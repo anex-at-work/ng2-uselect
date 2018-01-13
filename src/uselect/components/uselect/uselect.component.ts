@@ -71,6 +71,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     this.value = value;
     if (this.isMultiple() && this.sortKey) {
       this.value = <IUselectData[]>_.sortBy(this.value, val => {
+        if (!val) return;
         if (
           !(val instanceof Object) ||
           !(<Object>val).hasOwnProperty(this.sortKey)

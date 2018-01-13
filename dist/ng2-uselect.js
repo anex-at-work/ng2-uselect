@@ -17153,6 +17153,8 @@ class UselectComponent {
         this.value = value;
         if (this.isMultiple() && this.sortKey) {
             this.value = /** @type {?} */ (lodash.sortBy(this.value, val => {
+                if (!val)
+                    return;
                 if (!(val instanceof Object) ||
                     !((val)).hasOwnProperty(this.sortKey))
                     throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
