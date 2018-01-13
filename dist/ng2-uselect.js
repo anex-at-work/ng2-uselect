@@ -17160,7 +17160,7 @@ class UselectComponent {
                     throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
                 return val[this.sortKey];
             }));
-            //this.normalizeSort();
+            this.normalizeSort();
         }
     }
     /**
@@ -17185,7 +17185,7 @@ class UselectComponent {
             for (let /** @type {?} */ i = 0; i < ((this.value)).length; i++) {
                 this.value[i][this.sortKey] = i;
             }
-            this.onChange(this.value);
+            //this.onChange(this.value);
         }
     }
     /**

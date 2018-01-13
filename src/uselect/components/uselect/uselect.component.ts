@@ -81,7 +81,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
           );
         return val[this.sortKey];
       });
-      //this.normalizeSort();
+      this.normalizeSort();
     }
   }
 
@@ -98,7 +98,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       for (let i = 0; i < (<IUselectData[]>this.value).length; i++) {
         this.value[i][this.sortKey] = i;
       }
-      this.onChange(this.value);
+      //this.onChange(this.value);
     }
   }
 
