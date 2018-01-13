@@ -98,7 +98,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       for (let i = 0; i < (<IUselectData[]>this.value).length; i++) {
         this.value[i][this.sortKey] = i;
       }
-      this._onChange(this.value);
+      //this._onChange(this.value);
     }
   }
 

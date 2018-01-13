@@ -17185,7 +17185,7 @@ class UselectComponent {
             for (let /** @type {?} */ i = 0; i < ((this.value)).length; i++) {
                 this.value[i][this.sortKey] = i;
             }
-            this._onChange(this.value);
+            //this._onChange(this.value);
         }
     }
     /**
