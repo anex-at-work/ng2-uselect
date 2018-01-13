@@ -34,6 +34,7 @@ import {
 export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('placeholder') placeholder?: string;
   @Input('service') service: IUselectServiceItem;
+  @Input('itemId') itemId?: string = 'id';
   @Input('pipe')
   servicePipe?: (Observable, any?) => Observable<IUselectData[]> = res => {
     return res;
@@ -106,18 +107,21 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   private dropDownValue(item: IUselectData): string {
     if (this.dropDownValueFunc) return this.dropDownValueFunc(item);
-    return <string>item.id;
+    return <string>item[this.itemId];
   }
 
   private selectedValue(item: IUselectData): string {
     if (this.selectedValueFunc) return this.selectedValueFunc(item);
-    return <string>item.id;
+    return <string>item[this.itemId];
   }
 
   private selectItem(item: IUselectData): boolean {
     if (this.isMultiple()) {
       if (this.isCurrent(item)) {
-        _.remove(<IUselectData[]>this.value, val => val.id == item.id);
+        _.remove(
+          <IUselectData[]>this.value,
+          val => val[this.itemId] == item[this.itemId]
+        );
       } else (<IUselectData[]>this.value).push(item);
       this.normalizeSort();
     } else {
@@ -137,7 +141,10 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   public removeItem(item: IUselectData): void {
     if (this.disabled) return;
     if (this.isMultiple()) {
-      _.remove(<IUselectData[]>this.value, val => val.id == item.id);
+      _.remove(
+        <IUselectData[]>this.value,
+        val => val[this.itemId] == item[this.itemId]
+      );
     } else {
       this.value = undefined;
     }
@@ -209,9 +216,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     if (!this.value) return false;
     if (this.isMultiple()) {
       if (0 == (<IUselectData[]>this.value).length) return false;
-      return _.some(<IUselectData[]>this.value, val => val.id == item.id);
+      return _.some(<IUselectData[]>this.value, val => {
+        return val[this.itemId] == item[this.itemId];
+      });
     }
-    return (<IUselectData>this.value).id == item.id;
+    return (<IUselectData>this.value)[this.itemId] == item[this.itemId];
   }
 
   private allCheck(): boolean {

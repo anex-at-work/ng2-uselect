@@ -17118,6 +17118,7 @@ class UselectComponent {
      */
     constructor(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.itemId = 'id';
         this.servicePipe = res => {
             return res;
         };
@@ -17200,7 +17201,7 @@ class UselectComponent {
     dropDownValue(item) {
         if (this.dropDownValueFunc)
             return this.dropDownValueFunc(item);
-        return /** @type {?} */ (item.id);
+        return /** @type {?} */ (item[this.itemId]);
     }
     /**
      * @param {?} item
@@ -17209,7 +17210,7 @@ class UselectComponent {
     selectedValue(item) {
         if (this.selectedValueFunc)
             return this.selectedValueFunc(item);
-        return /** @type {?} */ (item.id);
+        return /** @type {?} */ (item[this.itemId]);
     }
     /**
      * @param {?} item
@@ -17218,7 +17219,7 @@ class UselectComponent {
     selectItem(item) {
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                lodash.remove(/** @type {?} */ (this.value), val => val.id == item.id);
+                lodash.remove(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
             }
             else
                 ((this.value)).push(item);
@@ -17245,7 +17246,7 @@ class UselectComponent {
         if (this.disabled)
             return;
         if (this.isMultiple()) {
-            lodash.remove(/** @type {?} */ (this.value), val => val.id == item.id);
+            lodash.remove(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
         }
         else {
             this.value = undefined;
@@ -17339,9 +17340,11 @@ class UselectComponent {
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return lodash.some(/** @type {?} */ (this.value), val => val.id == item.id);
+            return lodash.some(/** @type {?} */ (this.value), val => {
+                return val[this.itemId] == item[this.itemId];
+            });
         }
-        return ((this.value)).id == item.id;
+        return ((this.value))[this.itemId] == item[this.itemId];
     }
     /**
      * @return {?}
@@ -17559,6 +17562,7 @@ UselectComponent.ctorParameters = () => [
 UselectComponent.propDecorators = {
     'placeholder': [{ type: Input, args: ['placeholder',] },],
     'service': [{ type: Input, args: ['service',] },],
+    'itemId': [{ type: Input, args: ['itemId',] },],
     'servicePipe': [{ type: Input, args: ['pipe',] },],
     'pipeArgs': [{ type: Input, args: ['pipeArgs',] },],
     'dropDownValueFunc': [{ type: Input, args: ['dropDownValue',] },],

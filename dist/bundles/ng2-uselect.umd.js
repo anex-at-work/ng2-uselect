@@ -15615,6 +15615,7 @@ var UselectComponent = /** @class */ (function () {
      */
     function UselectComponent(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.itemId = 'id';
         this.servicePipe = function (res) {
             return res;
         };
@@ -15698,7 +15699,7 @@ var UselectComponent = /** @class */ (function () {
     UselectComponent.prototype.dropDownValue = function (item) {
         if (this.dropDownValueFunc)
             return this.dropDownValueFunc(item);
-        return /** @type {?} */ (item.id);
+        return /** @type {?} */ (item[this.itemId]);
     };
     /**
      * @param {?} item
@@ -15707,7 +15708,7 @@ var UselectComponent = /** @class */ (function () {
     UselectComponent.prototype.selectedValue = function (item) {
         if (this.selectedValueFunc)
             return this.selectedValueFunc(item);
-        return /** @type {?} */ (item.id);
+        return /** @type {?} */ (item[this.itemId]);
     };
     /**
      * @param {?} item
@@ -15717,7 +15718,7 @@ var UselectComponent = /** @class */ (function () {
         var _this = this;
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                lodash.remove(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
+                lodash.remove(/** @type {?} */ (this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
             }
             else
                 ((this.value)).push(item);
@@ -15741,10 +15742,11 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.removeItem = function (item) {
+        var _this = this;
         if (this.disabled)
             return;
         if (this.isMultiple()) {
-            lodash.remove(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
+            lodash.remove(/** @type {?} */ (this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
         }
         else {
             this.value = undefined;
@@ -15836,14 +15838,17 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.isCurrent = function (item) {
+        var _this = this;
         if (!this.value)
             return false;
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return lodash.some(/** @type {?} */ (this.value), function (val) { return val.id == item.id; });
+            return lodash.some(/** @type {?} */ (this.value), function (val) {
+                return val[_this.itemId] == item[_this.itemId];
+            });
         }
-        return ((this.value)).id == item.id;
+        return ((this.value))[this.itemId] == item[this.itemId];
     };
     /**
      * @return {?}
@@ -15884,6 +15889,7 @@ UselectComponent.ctorParameters = function () { return [
 UselectComponent.propDecorators = {
     'placeholder': [{ type: core.Input, args: ['placeholder',] },],
     'service': [{ type: core.Input, args: ['service',] },],
+    'itemId': [{ type: core.Input, args: ['itemId',] },],
     'servicePipe': [{ type: core.Input, args: ['pipe',] },],
     'pipeArgs': [{ type: core.Input, args: ['pipeArgs',] },],
     'dropDownValueFunc': [{ type: core.Input, args: ['dropDownValue',] },],
