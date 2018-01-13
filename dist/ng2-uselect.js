@@ -17177,9 +17177,9 @@ class UselectComponent {
         if (!this.sortKey)
             return /** @type {?} */ (this.value);
         return /** @type {?} */ (lodash.sortBy(this.value, val => {
-            if (!(val.value instanceof Object) ||
-                !((val.value)).hasOwnProperty(this.sortKey))
-                throw new Error('Sort key must be a part of value. Ex: {id: 1, value: {string: "example", sort: 1}}.');
+            if (!(val instanceof Object) ||
+                !((val)).hasOwnProperty(this.sortKey))
+                throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
             return val.value[this.sortKey];
         }));
     }

@@ -86,11 +86,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     if (!this.sortKey) return <IUselectData[]>this.value;
     return <IUselectData[]>_.sortBy(this.value, val => {
       if (
-        !(val.value instanceof Object) ||
-        !(<Object>val.value).hasOwnProperty(this.sortKey)
+        !(val instanceof Object) ||
+        !(<Object>val).hasOwnProperty(this.sortKey)
       )
         throw new Error(
-          'Sort key must be a part of value. Ex: {id: 1, value: {string: "example", sort: 1}}.'
+          'Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.'
         );
       return val.value[this.sortKey];
     });
