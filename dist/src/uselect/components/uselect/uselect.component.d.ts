@@ -30,7 +30,6 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     writeValue(value: IUselectData[] | IUselectData): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
-    private sortValue();
     private normalizeSort();
     private dropDownValue(item);
     private selectedValue(item);

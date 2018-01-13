@@ -15644,9 +15644,17 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.writeValue = function (value) {
+        var _this = this;
         this.value = value;
-        this.value = this.sortValue();
-        //this.normalizeSort();
+        if (this.isMultiple() && this.sortKey) {
+            this.value = /** @type {?} */ (lodash.sortBy(this.value, function (val) {
+                if (!(val instanceof Object) ||
+                    !((val)).hasOwnProperty(_this.sortKey))
+                    throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
+                return val[_this.sortKey];
+            }));
+            this.normalizeSort();
+        }
     };
     /**
      * @param {?} fn
@@ -15661,22 +15669,6 @@ var UselectComponent = /** @class */ (function () {
      */
     UselectComponent.prototype.registerOnTouched = function (fn) {
         this.onTouched = fn;
-    };
-    /**
-     * @return {?}
-     */
-    UselectComponent.prototype.sortValue = function () {
-        var _this = this;
-        if (!this.isMultiple())
-            return /** @type {?} */ (this.value);
-        if (!this.sortKey)
-            return /** @type {?} */ (this.value);
-        return /** @type {?} */ (lodash.sortBy(this.value, function (val) {
-            if (!(val instanceof Object) ||
-                !((val)).hasOwnProperty(_this.sortKey))
-                throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
-            return val.value[_this.sortKey];
-        }));
     };
     /**
      * @return {?}

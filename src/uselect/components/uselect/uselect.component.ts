@@ -69,8 +69,19 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: IUselectData[] | IUselectData): void {
     this.value = value;
-    this.value = this.sortValue();
-    //this.normalizeSort();
+    if (this.isMultiple() && this.sortKey) {
+      this.value = <IUselectData[]>_.sortBy(this.value, val => {
+        if (
+          !(val instanceof Object) ||
+          !(<Object>val).hasOwnProperty(this.sortKey)
+        )
+          throw new Error(
+            'Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.'
+          );
+        return val[this.sortKey];
+      });
+      this.normalizeSort();
+    }
   }
 
   registerOnChange(fn: any) {
@@ -79,21 +90,6 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   registerOnTouched(fn: any) {
     this.onTouched = fn;
-  }
-
-  private sortValue(): IUselectData | IUselectData[] {
-    if (!this.isMultiple()) return <IUselectData>this.value;
-    if (!this.sortKey) return <IUselectData[]>this.value;
-    return <IUselectData[]>_.sortBy(this.value, val => {
-      if (
-        !(val instanceof Object) ||
-        !(<Object>val).hasOwnProperty(this.sortKey)
-      )
-        throw new Error(
-          'Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.'
-        );
-      return val.value[this.sortKey];
-    });
   }
 
   private normalizeSort(): void {

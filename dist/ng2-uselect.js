@@ -17151,8 +17151,15 @@ class UselectComponent {
      */
     writeValue(value) {
         this.value = value;
-        this.value = this.sortValue();
-        //this.normalizeSort();
+        if (this.isMultiple() && this.sortKey) {
+            this.value = /** @type {?} */ (lodash.sortBy(this.value, val => {
+                if (!(val instanceof Object) ||
+                    !((val)).hasOwnProperty(this.sortKey))
+                    throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
+                return val[this.sortKey];
+            }));
+            this.normalizeSort();
+        }
     }
     /**
      * @param {?} fn
@@ -17167,21 +17174,6 @@ class UselectComponent {
      */
     registerOnTouched(fn) {
         this.onTouched = fn;
-    }
-    /**
-     * @return {?}
-     */
-    sortValue() {
-        if (!this.isMultiple())
-            return /** @type {?} */ (this.value);
-        if (!this.sortKey)
-            return /** @type {?} */ (this.value);
-        return /** @type {?} */ (lodash.sortBy(this.value, val => {
-            if (!(val instanceof Object) ||
-                !((val)).hasOwnProperty(this.sortKey))
-                throw new Error('Sort key must be a part of item. Ex: {id: 1, value: {string: "example"}, sort: 1}.');
-            return val.value[this.sortKey];
-        }));
     }
     /**
      * @return {?}
