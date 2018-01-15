@@ -15802,6 +15802,8 @@ var UselectComponent = /** @class */ (function () {
         if (this.disabled)
             return;
         if ($event) {
+            if ('a' == $event.target['tagName'].toLowerCase())
+                return;
             $event.preventDefault();
             $event.stopPropagation();
             if ('button' == $event.target['tagName'].toLowerCase() ||
