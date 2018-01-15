@@ -17375,7 +17375,7 @@ UselectComponent.decorators = [
               *ngFor="let selectedItem of value; let i = index; trackByIndex">
               <div class="uselect__select-item" dnd-sortable [sortableIndex]="i"
                 (onDragSuccess)="onItemDrop($event)">
-                <span>
+                <span class="uselect__select-item-template">
                   <ng-container
                     *ngTemplateOutlet="selectTemplate; context: {$implicit: selectedItem}"></ng-container>
                   <ng-container
@@ -17482,10 +17482,17 @@ UselectComponent.decorators = [
             display: none; }
         :host .uselect__holder .uselect__select {
           width: 100%; }
+          :host .uselect__holder .uselect__select > .form-control {
+            padding: 6px; }
           :host .uselect__holder .uselect__select .uselect__btn-dropdown {
             height: 100%; }
           :host .uselect__holder .uselect__select .uselect__selected-items {
             width: 100%; }
+            :host .uselect__holder .uselect__select .uselect__selected-items[dnd-sortable-container] .uselect__select-item {
+              border: 1px solid #ced4da;
+              border-radius: 2px;
+              -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+                      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1); }
             :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item {
               display: -webkit-box;
               display: -ms-flexbox;
@@ -17493,12 +17500,15 @@ UselectComponent.decorators = [
               width: 100%;
               -webkit-box-align: center;
                   -ms-flex-align: center;
-                      align-items: center; }
+                      align-items: center;
+              padding: 0 3px; }
               :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item + .uselect__select-item {
                 margin-top: 3px; }
-              :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item span {
+              :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item span.uselect__select-item-template {
                 max-width: 85%;
                 overflow: hidden; }
+              :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item .btn[dnd-sortable-handle] {
+                cursor: move; }
         :host .uselect__holder .uselect__dropdown {
           position: absolute;
           z-index: 2147483647;

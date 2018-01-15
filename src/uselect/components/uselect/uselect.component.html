@@ -15,7 +15,7 @@
           *ngFor="let selectedItem of value; let i = index; trackByIndex">
           <div class="uselect__select-item" dnd-sortable [sortableIndex]="i"
             (onDragSuccess)="onItemDrop($event)">
-            <span>
+            <span class="uselect__select-item-template">
               <ng-container
                 *ngTemplateOutlet="selectTemplate; context: {$implicit: selectedItem}"></ng-container>
               <ng-container

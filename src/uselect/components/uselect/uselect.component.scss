@@ -19,21 +19,35 @@
     }
     .uselect__select {
       width: 100%;
+      > .form-control {
+        padding: 6px;
+      }
       .uselect__btn-dropdown {
         height: 100%;
       }
       .uselect__selected-items {
         width: 100%;
+        &[dnd-sortable-container] {
+          .uselect__select-item {
+            border: 1px solid $gray-400;
+            border-radius: 2px;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+          }
+        }
         .uselect__select-item {
           display: flex;
           width: 100%;
           align-items: center;
+          padding: 0 3px;
           & + .uselect__select-item {
             margin-top: 3px;
           }
-          span {
+          span.uselect__select-item-template {
             max-width: 85%;
             overflow: hidden;
+          }
+          .btn[dnd-sortable-handle] {
+            cursor: move;
           }
         }
       }
