@@ -17507,7 +17507,8 @@ UselectComponent.decorators = [
               :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item + .uselect__select-item {
                 margin-top: 3px; }
               :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item span.uselect__select-item-template {
-                max-width: 85%;
+                width: 100%;
+                max-width: 100%;
                 overflow: hidden; }
               :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item .btn[dnd-sortable-handle] {
                 cursor: move; }

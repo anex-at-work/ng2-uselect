@@ -43,7 +43,8 @@
             margin-top: 3px;
           }
           span.uselect__select-item-template {
-            max-width: 85%;
+            width: 100%;
+            max-width: 100%;
             overflow: hidden;
           }
           .btn[dnd-sortable-handle] {
