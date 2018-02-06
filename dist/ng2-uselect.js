@@ -17118,6 +17118,7 @@ class UselectComponent {
      */
     constructor(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.serviceMethod = 'getItems';
         this.itemId = 'id';
         this.servicePipe = res => {
             return res;
@@ -17250,8 +17251,10 @@ class UselectComponent {
      * @return {?}
      */
     onSearchChange() {
-        this.service
-            .getItems(this.search)
+        if (!this.service[this.serviceMethod])
+            throw new Error(`Method '${this.serviceMethod}' are missed in service`);
+        this.service[this.serviceMethod]
+            .call(this.service, this.search)
             .pipe(res => this.servicePipe.apply(undefined, [res, this.pipeArgs]))
             .subscribe(data => {
             this.items = /** @type {?} */ (data);
@@ -17568,6 +17571,7 @@ UselectComponent.ctorParameters = () => [
 UselectComponent.propDecorators = {
     'placeholder': [{ type: Input, args: ['placeholder',] },],
     'service': [{ type: Input, args: ['service',] },],
+    'serviceMethod': [{ type: Input, args: ['serviceMethod',] },],
     'itemId': [{ type: Input, args: ['itemId',] },],
     'servicePipe': [{ type: Input, args: ['pipe',] },],
     'pipeArgs': [{ type: Input, args: ['pipeArgs',] },],

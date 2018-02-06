@@ -34,6 +34,7 @@ import {
 export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('placeholder') placeholder?: string;
   @Input('service') service: IUselectServiceItem;
+  @Input('serviceMethod') serviceMethod?: string = 'getItems';
   @Input('itemId') itemId?: string = 'id';
   @Input('pipe')
   servicePipe?: (Observable, any?) => Observable<IUselectData[]> = res => {
@@ -148,8 +149,10 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private onSearchChange(): void {
-    this.service
-      .getItems(this.search)
+    if (!this.service[this.serviceMethod])
+      throw new Error(`Method '${this.serviceMethod}' are missed in service`);
+    this.service[this.serviceMethod]
+      .call(this.service, this.search)
       .pipe(res => this.servicePipe.apply(undefined, [res, this.pipeArgs]))
       .subscribe(data => {
         this.items = <IUselectData[]>data;

@@ -7,6 +7,7 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     private defaultConfig;
     placeholder?: string;
     service: IUselectServiceItem;
+    serviceMethod?: string;
     itemId?: string;
     servicePipe?: (Observable, any?) => Observable<IUselectData[]>;
     pipeArgs?: any[];

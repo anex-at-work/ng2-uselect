@@ -15615,6 +15615,7 @@ var UselectComponent = /** @class */ (function () {
      */
     function UselectComponent(defaultConfig) {
         this.defaultConfig = defaultConfig;
+        this.serviceMethod = 'getItems';
         this.itemId = 'id';
         this.servicePipe = function (res) {
             return res;
@@ -15751,8 +15752,10 @@ var UselectComponent = /** @class */ (function () {
      */
     UselectComponent.prototype.onSearchChange = function () {
         var _this = this;
-        this.service
-            .getItems(this.search)
+        if (!this.service[this.serviceMethod])
+            throw new Error("Method '" + this.serviceMethod + "' are missed in service");
+        this.service[this.serviceMethod]
+            .call(this.service, this.search)
             .pipe(function (res) { return _this.servicePipe.apply(undefined, [res, _this.pipeArgs]); })
             .subscribe(function (data) {
             _this.items = /** @type {?} */ (data);
@@ -15884,6 +15887,7 @@ UselectComponent.ctorParameters = function () { return [
 UselectComponent.propDecorators = {
     'placeholder': [{ type: core.Input, args: ['placeholder',] },],
     'service': [{ type: core.Input, args: ['service',] },],
+    'serviceMethod': [{ type: core.Input, args: ['serviceMethod',] },],
     'itemId': [{ type: core.Input, args: ['itemId',] },],
     'servicePipe': [{ type: core.Input, args: ['pipe',] },],
     'pipeArgs': [{ type: core.Input, args: ['pipeArgs',] },],
