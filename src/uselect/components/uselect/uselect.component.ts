@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import _ from 'lodash/lodash';
+import * as _ from 'lodash/lodash';
 
 import { UselectDefaultConfig } from './../../classes/uselect-default-config.class';
 import {
@@ -59,6 +59,10 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private isDropDownOpen: boolean = false;
   private _onChange: any = (_: any) => {};
   private _onTouched: any = () => {};
+  private _draggableIndexes: { start: number; over: number } = {
+    start: undefined,
+    over: undefined
+  };
 
   constructor(private defaultConfig: UselectDefaultConfig) {}
 
@@ -92,6 +96,29 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   registerOnTouched(fn: any) {
     this._onTouched = fn;
+  }
+
+  private onUselectIndexChange($event: number): void {
+    this._draggableIndexes.over = $event;
+    if (this._draggableIndexes.over != this._draggableIndexes.start) {
+      let overEl = this.value[this._draggableIndexes.over];
+      this.value[this._draggableIndexes.start][
+        this.sortKey
+      ] = this._draggableIndexes.over;
+      this.value[this._draggableIndexes.over][
+        this.sortKey
+      ] = this._draggableIndexes.start;
+      this.value[this._draggableIndexes.over] = this.value[
+        this._draggableIndexes.start
+      ];
+      this.value[this._draggableIndexes.start] = overEl;
+      this._draggableIndexes.start = this._draggableIndexes.over;
+    }
+  }
+
+  private onUselectDragstart($event: number): void {
+    this._draggableIndexes.start = $event;
+    this._draggableIndexes.over = undefined;
   }
 
   private normalizeSort(): void {

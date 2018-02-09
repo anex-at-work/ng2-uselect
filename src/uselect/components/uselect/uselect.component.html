@@ -10,11 +10,12 @@
     <div class="form-control">
       <div *ngIf="value && isMultiple() && 0 < value.length"
         class="uselect__selected-items"
-        dnd-sortable-container [sortableData]="value">
+        [uselectSortableData]="value">
         <ng-container
           *ngFor="let selectedItem of value; let i = index; trackByIndex">
-          <div class="uselect__select-item" dnd-sortable [sortableIndex]="i"
-            (onDragSuccess)="onItemDrop($event)">
+          <div class="uselect__select-item" [uselectSortableIndex]="i"
+            (onUselectIndexChange)="onUselectIndexChange($event)"
+            (onUselectDragstart)="onUselectDragstart($event)">
             <span class="uselect__select-item-template">
               <ng-container
                 *ngTemplateOutlet="selectTemplate; context: {$implicit: selectedItem}"></ng-container>
@@ -26,7 +27,7 @@
             <div class="btn-group ml-auto">
               <button *ngIf="sortKey"
                 type="button" class="btn btn-light btn-sm" aria-label="Move"
-                dnd-sortable-handle>
+                uselectSortableHandle>
                 <span aria-hidden="true">&#x2195;</span>
               </button>
               <button type="button" class="btn btn-light btn-sm" aria-label="Move"

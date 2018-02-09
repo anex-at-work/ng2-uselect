@@ -1,6 +1,5 @@
 @import 'node_modules/bootstrap/scss/_functions.scss';
 @import 'node_modules/bootstrap/scss/_variables.scss';
-@import 'node_modules/ng2-dnd/bundles/style';
 
 :host {
   display: flex;
@@ -27,13 +26,6 @@
       }
       .uselect__selected-items {
         width: 100%;
-        &[dnd-sortable-container] {
-          .uselect__select-item {
-            border: 1px solid $gray-400;
-            border-radius: 2px;
-            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-          }
-        }
         .uselect__select-item {
           display: flex;
           width: 100%;
@@ -42,12 +34,18 @@
           & + .uselect__select-item {
             margin-top: 3px;
           }
+          &.uselect__select-item--draggable {
+            transform: scale(0.95);
+            border: 1px dashed #cecece;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.8);
+          }
           span.uselect__select-item-template {
             width: 100%;
             max-width: 100%;
             overflow: hidden;
           }
-          .btn[dnd-sortable-handle] {
+          .btn[uselectsortablehandle] {
             cursor: move;
           }
         }
