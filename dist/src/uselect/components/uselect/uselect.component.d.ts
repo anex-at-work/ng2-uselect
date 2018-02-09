@@ -6,7 +6,7 @@ import { IUselectData, IUselectServiceItem } from './../../classes/uselect-servi
 export declare class UselectComponent implements OnInit, ControlValueAccessor {
     private defaultConfig;
     placeholder?: string;
-    service: IUselectServiceItem;
+    service?: IUselectServiceItem;
     serviceMethod?: string;
     itemId?: string;
     servicePipe?: (Observable, any?) => Observable<IUselectData[]>;
@@ -45,6 +45,5 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     private isMultiple();
     private toggleDropDown(isOpen?, $event?);
     private isCurrent(item);
-    private allCheck();
     private trackByIndex(index, obj);
 }

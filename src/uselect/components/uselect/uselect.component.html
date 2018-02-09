@@ -1,5 +1,4 @@
 <div
-  *ngIf="allCheck()"
   class="uselect__holder"
   tabindex="0"
   [class.uselect__dropdown--open]="isDropDownOpen"
@@ -59,7 +58,7 @@
         {{placeholder}}
       </div>
     </div>
-    <div *ngIf="isMultiple()" class="input-group-append">
+    <div *ngIf="service && isMultiple()" class="input-group-append">
       <button class="uselect__btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" (click)="toggleDropDown(!isDropDownOpen)"></button>
     </div>
   </div>

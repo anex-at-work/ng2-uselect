@@ -33,7 +33,7 @@ import {
 })
 export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('placeholder') placeholder?: string;
-  @Input('service') service: IUselectServiceItem;
+  @Input('service') service?: IUselectServiceItem;
   @Input('serviceMethod') serviceMethod?: string = 'getItems';
   @Input('itemId') itemId?: string = 'id';
   @Input('pipe')
@@ -68,8 +68,6 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     if (!this.placeholder) this.placeholder = this.defaultConfig.placeholder;
-    if (!this.service)
-      throw new Error('Service for Uselect component are missed!');
   }
 
   writeValue(value: IUselectData[] | IUselectData): void {
@@ -119,6 +117,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   private onUselectDragstart($event: number): void {
     this._draggableIndexes.start = $event;
     this._draggableIndexes.over = undefined;
+    this.toggleDropDown(false);
   }
 
   private normalizeSort(): void {
@@ -169,6 +168,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
         <IUselectData[]>this.value,
         val => val[this.itemId] == item[this.itemId]
       );
+      this.normalizeSort();
     } else {
       this.value = undefined;
     }
@@ -214,7 +214,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
-    if (this.disabled) return;
+    if (this.disabled || !this.service) return;
     if ($event) {
       if ('a' == $event.target['tagName'].toLowerCase()) return;
       $event.preventDefault();
@@ -248,10 +248,6 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       });
     }
     return (<IUselectData>this.value)[this.itemId] == item[this.itemId];
-  }
-
-  private allCheck(): boolean {
-    return !!this.service;
   }
 
   private trackByIndex(index: number, obj: any): any {

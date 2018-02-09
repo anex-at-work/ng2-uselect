@@ -17147,8 +17147,6 @@ class UselectComponent {
     ngOnInit() {
         if (!this.placeholder)
             this.placeholder = this.defaultConfig.placeholder;
-        if (!this.service)
-            throw new Error('Service for Uselect component are missed!');
     }
     /**
      * @param {?} value
@@ -17204,6 +17202,7 @@ class UselectComponent {
     onUselectDragstart($event) {
         this._draggableIndexes.start = $event;
         this._draggableIndexes.over = undefined;
+        this.toggleDropDown(false);
     }
     /**
      * @return {?}
@@ -17268,6 +17267,7 @@ class UselectComponent {
             return;
         if (this.isMultiple()) {
             lodash.remove(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
+            this.normalizeSort();
         }
         else {
             this.value = undefined;
@@ -17329,7 +17329,7 @@ class UselectComponent {
      * @return {?}
      */
     toggleDropDown(isOpen = true, $event) {
-        if (this.disabled)
+        if (this.disabled || !this.service)
             return;
         if ($event) {
             if ('a' == $event.target['tagName'].toLowerCase())
@@ -17372,12 +17372,6 @@ class UselectComponent {
         return ((this.value))[this.itemId] == item[this.itemId];
     }
     /**
-     * @return {?}
-     */
-    allCheck() {
-        return !!this.service;
-    }
-    /**
      * @param {?} index
      * @param {?} obj
      * @return {?}
@@ -17391,7 +17385,6 @@ UselectComponent.decorators = [
                 selector: 'uselect',
                 template: `
     <div
-      *ngIf="allCheck()"
       class="uselect__holder"
       tabindex="0"
       [class.uselect__dropdown--open]="isDropDownOpen"
@@ -17451,7 +17444,7 @@ UselectComponent.decorators = [
             {{placeholder}}
           </div>
         </div>
-        <div *ngIf="isMultiple()" class="input-group-append">
+        <div *ngIf="service && isMultiple()" class="input-group-append">
           <button class="uselect__btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" (click)="toggleDropDown(!isDropDownOpen)"></button>
         </div>
       </div>
