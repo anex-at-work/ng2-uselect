@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import * as _ from 'lodash/lodash';
+import _ from 'lodash/lodash';
 
 import { UselectDefaultConfig } from './../../classes/uselect-default-config.class';
 import {

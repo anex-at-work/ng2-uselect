@@ -17127,7 +17127,7 @@ class UselectComponent {
         this.highlightedIndex = 0;
         this.search = '';
         this.isDropDownOpen = false;
-        this._onChange = (_) => { };
+        this._onChange = (_$$1) => { };
         this._onTouched = () => { };
         this._draggableIndexes = {
             start: undefined,
@@ -17157,7 +17157,7 @@ class UselectComponent {
     writeValue(value) {
         this.value = value;
         if (this.isMultiple() && this.sortKey) {
-            this.value = /** @type {?} */ (undefined(this.value, val => {
+            this.value = /** @type {?} */ (lodash.sortBy(this.value, val => {
                 if (!val)
                     return;
                 if (!(val instanceof Object) ||
@@ -17240,7 +17240,7 @@ class UselectComponent {
     selectItem(item) {
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                undefined(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
+                lodash.remove(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
             }
             else
                 ((this.value)).push(item);
@@ -17248,7 +17248,7 @@ class UselectComponent {
         }
         else {
             this.value = item;
-            setTimeout(_ => {
+            setTimeout(_$$1 => {
                 this.isDropDownOpen = false;
                 if ('' != this.search) {
                     this.search = '';
@@ -17267,7 +17267,7 @@ class UselectComponent {
         if (this.disabled)
             return;
         if (this.isMultiple()) {
-            undefined(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
+            lodash.remove(/** @type {?} */ (this.value), val => val[this.itemId] == item[this.itemId]);
         }
         else {
             this.value = undefined;
@@ -17344,7 +17344,7 @@ class UselectComponent {
         if (isOpen) {
             if (!this.items)
                 this.onSearchChange();
-            setTimeout(_ => {
+            setTimeout(_$$1 => {
                 this.uselectSearch.nativeElement.focus();
             });
         }
@@ -17365,7 +17365,7 @@ class UselectComponent {
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return undefined(/** @type {?} */ (this.value), val => {
+            return lodash.some(/** @type {?} */ (this.value), val => {
                 return val[this.itemId] == item[this.itemId];
             });
         }

@@ -15621,7 +15621,7 @@ var UselectComponent = /** @class */ (function () {
         this.highlightedIndex = 0;
         this.search = '';
         this.isDropDownOpen = false;
-        this._onChange = function (_) { };
+        this._onChange = function (_$$1) { };
         this._onTouched = function () { };
         this._draggableIndexes = {
             start: undefined,
@@ -15652,7 +15652,7 @@ var UselectComponent = /** @class */ (function () {
         var _this = this;
         this.value = value;
         if (this.isMultiple() && this.sortKey) {
-            this.value = /** @type {?} */ (undefined(this.value, function (val) {
+            this.value = /** @type {?} */ (lodash.sortBy(this.value, function (val) {
                 if (!val)
                     return;
                 if (!(val instanceof Object) ||
@@ -15736,7 +15736,7 @@ var UselectComponent = /** @class */ (function () {
         var _this = this;
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                undefined(/** @type {?} */ (this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
+                lodash.remove(/** @type {?} */ (this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
             }
             else
                 ((this.value)).push(item);
@@ -15744,7 +15744,7 @@ var UselectComponent = /** @class */ (function () {
         }
         else {
             this.value = item;
-            setTimeout(function (_) {
+            setTimeout(function (_$$1) {
                 _this.isDropDownOpen = false;
                 if ('' != _this.search) {
                     _this.search = '';
@@ -15764,7 +15764,7 @@ var UselectComponent = /** @class */ (function () {
         if (this.disabled)
             return;
         if (this.isMultiple()) {
-            undefined(/** @type {?} */ (this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
+            lodash.remove(/** @type {?} */ (this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
         }
         else {
             this.value = undefined;
@@ -15844,7 +15844,7 @@ var UselectComponent = /** @class */ (function () {
         if (isOpen) {
             if (!this.items)
                 this.onSearchChange();
-            setTimeout(function (_) {
+            setTimeout(function (_$$1) {
                 _this.uselectSearch.nativeElement.focus();
             });
         }
@@ -15866,7 +15866,7 @@ var UselectComponent = /** @class */ (function () {
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return undefined(/** @type {?} */ (this.value), function (val) {
+            return lodash.some(/** @type {?} */ (this.value), function (val) {
                 return val[_this.itemId] == item[_this.itemId];
             });
         }
