@@ -77,9 +77,7 @@ export class UselectSortableIndexDirective {
   @HostListener('dragover', ['$event'])
   onDragOver(event: DragEvent): boolean {
     event.dataTransfer.dropEffect = 'move';
-    if ((<any>event.target).attributes['uselectsortable']) {
-      this.uselectIndexChange.emit(this.uselectSortableIndex);
-    }
+    this.uselectIndexChange.emit(this.uselectSortableIndex);
     return false;
   }
 }

@@ -17719,9 +17719,7 @@ class UselectSortableIndexDirective {
      */
     onDragOver(event) {
         event.dataTransfer.dropEffect = 'move';
-        if (((event.target)).attributes['uselectsortable']) {
-            this.uselectIndexChange.emit(this.uselectSortableIndex);
-        }
+        this.uselectIndexChange.emit(this.uselectSortableIndex);
         return false;
     }
 }

@@ -16053,9 +16053,7 @@ var UselectSortableIndexDirective = /** @class */ (function () {
      */
     UselectSortableIndexDirective.prototype.onDragOver = function (event) {
         event.dataTransfer.dropEffect = 'move';
-        if (((event.target)).attributes['uselectsortable']) {
-            this.uselectIndexChange.emit(this.uselectSortableIndex);
-        }
+        this.uselectIndexChange.emit(this.uselectSortableIndex);
         return false;
     };
     return UselectSortableIndexDirective;
