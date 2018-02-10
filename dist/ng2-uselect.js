@@ -17690,7 +17690,7 @@ class UselectSortableIndexDirective {
      * @return {?}
      */
     onMouseDown(event) {
-        if (!this.uselectSortableIndex)
+        if (undefined == this.uselectSortableIndex)
             return true;
         if ((this.uselectSortableHandler &&
             this.uselectSortableHandler.isMouseDown) ||

@@ -16028,7 +16028,7 @@ var UselectSortableIndexDirective = /** @class */ (function () {
      * @return {?}
      */
     UselectSortableIndexDirective.prototype.onMouseDown = function (event) {
-        if (!this.uselectSortableIndex)
+        if (undefined == this.uselectSortableIndex)
             return true;
         if ((this.uselectSortableHandler &&
             this.uselectSortableHandler.isMouseDown) ||
