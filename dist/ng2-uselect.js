@@ -17386,9 +17386,6 @@ UselectComponent.decorators = [
     { type: Component, args: [{
                 selector: 'uselect',
                 template: `
-    <div *ngIf="value">
-      {{value.length}}
-    </div>
     <div
       class="uselect__holder"
       tabindex="0"
