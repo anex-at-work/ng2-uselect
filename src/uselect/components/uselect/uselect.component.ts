@@ -72,7 +72,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: IUselectData[] | IUselectData): void {
     this.value = value;
-    if (this.isMultiple() && this.sortKey) {
+    if (
+      this.isMultiple() &&
+      this.sortKey &&
+      (<IUselectData[]>this.value).length
+    ) {
       this.value = <IUselectData[]>_.sortBy(this.value, val => {
         if (!val) return;
         if (

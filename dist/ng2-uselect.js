@@ -17154,7 +17154,9 @@ class UselectComponent {
      */
     writeValue(value) {
         this.value = value;
-        if (this.isMultiple() && this.sortKey) {
+        if (this.isMultiple() &&
+            this.sortKey &&
+            ((this.value)).length) {
             this.value = /** @type {?} */ (lodash.sortBy(this.value, val => {
                 if (!val)
                     return;
@@ -17384,6 +17386,9 @@ UselectComponent.decorators = [
     { type: Component, args: [{
                 selector: 'uselect',
                 template: `
+    <div *ngIf="value">
+      {{value.length}}
+    </div>
     <div
       class="uselect__holder"
       tabindex="0"
