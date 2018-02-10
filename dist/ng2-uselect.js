@@ -17400,7 +17400,7 @@ UselectComponent.decorators = [
             [uselectSortableData]="value">
             <ng-container
               *ngFor="let selectedItem of value; let i = index; trackByIndex">
-              <div class="uselect__select-item" [uselectSortableIndex]="i"
+              <div class="uselect__select-item" [uselectSortableIndex]="sortKey ? i : undefined"
                 (onUselectIndexChange)="onUselectIndexChange($event)"
                 (onUselectDragstart)="onUselectDragstart($event)">
                 <span class="uselect__select-item-template">
@@ -17690,6 +17690,8 @@ class UselectSortableIndexDirective {
      * @return {?}
      */
     onMouseDown(event) {
+        if (!this.uselectSortableIndex)
+            return true;
         if ((this.uselectSortableHandler &&
             this.uselectSortableHandler.isMouseDown) ||
             !this.uselectSortableHandler) {

@@ -55,6 +55,7 @@ export class UselectSortableIndexDirective {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): boolean {
+    if (!this.uselectSortableIndex) return true;
     if (
       (this.uselectSortableHandler &&
         this.uselectSortableHandler.isMouseDown) ||
