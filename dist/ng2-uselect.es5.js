@@ -16105,5 +16105,5 @@ UselectModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { UselectModule };
+export { UselectModule, UselectDefaultConfig as ɵb, UselectComponent as ɵa, UselectSortableDataDirective as ɵc, UselectSortableHandle as ɵd, UselectSortableIndexDirective as ɵe };
 //# sourceMappingURL=ng2-uselect.es5.js.map

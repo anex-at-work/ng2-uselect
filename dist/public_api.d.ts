@@ -1,1 +1,1 @@
-export * from './src/uselect';
+export * from './src/uselect/index';

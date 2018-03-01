@@ -16107,6 +16107,11 @@ UselectModule.decorators = [
 UselectModule.ctorParameters = function () { return []; };
 
 exports.UselectModule = UselectModule;
+exports.ɵb = UselectDefaultConfig;
+exports.ɵa = UselectComponent;
+exports.ɵc = UselectSortableDataDirective;
+exports.ɵd = UselectSortableHandle;
+exports.ɵe = UselectSortableIndexDirective;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
