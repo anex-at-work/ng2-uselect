@@ -2,7 +2,7 @@
   "name": "ng2-uselect",
   "version": "1.2.7",
   "description": "Universal select component with sortable",
-  "main": "./bundlex/ng2-uselect.umd.js",
+  "main": "./dist/bundles/ng2-uselect.umd.js",
   "module": "./dist/ng2-uselect.es5.js",
   "es2015": "./dist/ng2-uselect.js",
   "typings": "./dist/ng2-uselect.d.ts",
