@@ -1,11 +1,11 @@
 {
   "name": "ng2-uselect",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Universal select component with sortable",
   "main": "./bundlex/ng2-uselect.umd.js",
-  "module": "ng2-uselect.es5.js",
-  "es2015": "ng2-uselect.js",
-  "typings": "ng2-uselect.d.ts",
+  "module": "./ng2-uselect.es5.js",
+  "es2015": "./ng2-uselect.js",
+  "typings": "./ng2-uselect.d.ts",
   "scripts": {
     "test": "ng test -sr",
     "clean": "rimraf dist",
