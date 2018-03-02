@@ -5,9 +5,9 @@
   [class.uselect__holder--disabled]="disabled"
   (click)="toggleDropDown(true, $event)">
   <div class="uselect__select input-group"
-    [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < value.length)">
+    [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)">
     <div class="form-control">
-      <div *ngIf="value && isMultiple() && 0 < value.length"
+      <div *ngIf="value && isMultiple() && 0 < arrValue().length"
         class="uselect__selected-items"
         [uselectSortableData]="value">
         <ng-container
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!value || 0 == value.length"
+      <div *ngIf="!value || 0 == arrValue().length"
         class="uselect__placeholder">
         {{placeholder}}
       </div>

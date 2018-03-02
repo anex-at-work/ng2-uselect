@@ -81,4 +81,25 @@ export class UselectSortableIndexDirective {
     this.uselectIndexChange.emit(this.uselectSortableIndex);
     return false;
   }
+
+  @HostListener('drag', ['$event'])
+  onDrag(event: DragEvent): boolean {
+    if (!event.target['classList'].contains('uselect__select-item')) {
+      return true;
+    }
+    let parent: any = event.target['closest']('.uselect__selected-items'),
+      percent: number = 0.2;
+    if (
+      parent['offsetHeight'] * (1 - percent) <
+      event.target['offsetTop'] - parent['scrollTop']
+    ) {
+      parent['scrollTop'] = parent['scrollTop'] + event.target['offsetHeight'];
+    } else if (
+      parent['offsetHeight'] * percent >
+      event.target['offsetTop'] - parent['scrollTop']
+    ) {
+      parent['scrollTop'] = parent['scrollTop'] - event.target['offsetHeight'];
+    }
+    return true;
+  }
 }

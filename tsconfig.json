@@ -1,0 +1,18 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": ["es2017", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "ng2-uselect": ["src/ng2-uselect"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

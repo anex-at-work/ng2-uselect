@@ -16,4 +16,5 @@ export declare class UselectSortableIndexDirective {
     onMouseDown(event: MouseEvent): boolean;
     onDragEnd(event: DragEvent): boolean;
     onDragOver(event: DragEvent): boolean;
+    onDrag(event: DragEvent): boolean;
 }

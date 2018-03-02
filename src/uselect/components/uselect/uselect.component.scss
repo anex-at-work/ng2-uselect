@@ -3,7 +3,7 @@
 
 :host {
   display: flex;
-
+  max-height: 100%;
   .uselect__holder {
     width: 100%;
     position: relative;
@@ -18,14 +18,18 @@
     }
     .uselect__select {
       width: 100%;
+      max-height: 100%;
       > .form-control {
         padding: 6px;
+        max-height: 100%;
       }
       .uselect__btn-dropdown {
         height: 100%;
       }
       .uselect__selected-items {
         width: 100%;
+        max-height: 100%;
+        overflow: auto;
         .uselect__select-item {
           display: flex;
           width: 100%;
@@ -47,6 +51,10 @@
           }
           .btn[uselectsortablehandle] {
             cursor: move;
+            &:hover {
+              background-color: #f8f9fa;
+              border-color: #f8f9fa;
+            }
           }
         }
       }

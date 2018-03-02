@@ -35,6 +35,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('placeholder') placeholder?: string;
   @Input('service') service?: IUselectServiceItem;
   @Input('serviceMethod') serviceMethod?: string = 'getItems';
+  @Input('serviceMethodArgs') serviceMethodArgs?: any[];
   @Input('itemId') itemId?: string = 'id';
   @Input('pipe')
   servicePipe?: (Observable, any?) => Observable<IUselectData[]> = res => {
@@ -52,11 +53,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   clickedOutside($event) {
     this.toggleDropDown(false);
   }
-  private value: IUselectData[] | IUselectData; //for ngModel
-  private items: IUselectData[]; //for service items
+  public value: IUselectData[] | IUselectData; //for ngModel
+  public items: IUselectData[]; //for service items
+  public search: string = '';
+  public isDropDownOpen: boolean = false;
   private highlightedIndex: number = 0;
-  private search: string = '';
-  private isDropDownOpen: boolean = false;
   private _onChange: any = (_: any) => {};
   private _onTouched: any = () => {};
   private _draggableIndexes: { start: number; over: number } = {
@@ -179,12 +180,19 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     this._onChange(this.value);
   }
 
-  private onSearchChange(): void {
+  public onSearchChange(): void {
     if (!this.service[this.serviceMethod])
       throw new Error(`Method '${this.serviceMethod}' are missed in service`);
     this.service[this.serviceMethod]
-      .call(this.service, this.search)
-      .pipe(res => this.servicePipe.apply(undefined, [res, this.pipeArgs]))
+      .apply(
+        this.service,
+        this.serviceMethodArgs && 0 == this.serviceMethodArgs.length
+          ? [this.search]
+          : this.serviceMethodArgs
+      )
+      .pipe(res =>
+        this.servicePipe.apply(undefined, [res].concat(this.pipeArgs))
+      )
       .subscribe(data => {
         this.items = <IUselectData[]>data;
       });
@@ -195,7 +203,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     this.normalizeSort();
   }
 
-  private onSearchKeydown($event: KeyboardEvent): void {
+  public onSearchKeydown($event: KeyboardEvent): void {
     switch ($event.keyCode) {
       case 40: // keydown
         if (this.highlightedIndex < this.items.length - 1)
@@ -213,11 +221,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  private isMultiple(): boolean {
+  public isMultiple(): boolean {
     return this.value instanceof Array;
   }
 
-  private toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
+  public toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
     if (this.disabled || !this.service) return;
     if ($event) {
       if ('a' == $event.target['tagName'].toLowerCase()) return;
@@ -254,7 +262,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     return (<IUselectData>this.value)[this.itemId] == item[this.itemId];
   }
 
-  private trackByIndex(index: number, obj: any): any {
+  public arrValue(): IUselectData[] {
+    return <IUselectData[]>this.value;
+  }
+
+  public trackByIndex(index: number, obj: any): any {
     return index;
   }
 }

@@ -17124,9 +17124,9 @@ class UselectComponent {
             return res;
         };
         this.disabled = false;
-        this.highlightedIndex = 0;
         this.search = '';
         this.isDropDownOpen = false;
+        this.highlightedIndex = 0;
         this._onChange = (_$$1) => { };
         this._onTouched = () => { };
         this._draggableIndexes = {
@@ -17283,8 +17283,10 @@ class UselectComponent {
         if (!this.service[this.serviceMethod])
             throw new Error(`Method '${this.serviceMethod}' are missed in service`);
         this.service[this.serviceMethod]
-            .call(this.service, this.search)
-            .pipe(res => this.servicePipe.apply(undefined, [res, this.pipeArgs]))
+            .apply(this.service, this.serviceMethodArgs && 0 == this.serviceMethodArgs.length
+            ? [this.search]
+            : this.serviceMethodArgs)
+            .pipe(res => this.servicePipe.apply(undefined, [res].concat(this.pipeArgs)))
             .subscribe(data => {
             this.items = /** @type {?} */ (data);
         });
@@ -17374,6 +17376,12 @@ class UselectComponent {
         return ((this.value))[this.itemId] == item[this.itemId];
     }
     /**
+     * @return {?}
+     */
+    arrValue() {
+        return /** @type {?} */ (this.value);
+    }
+    /**
      * @param {?} index
      * @param {?} obj
      * @return {?}
@@ -17393,9 +17401,9 @@ UselectComponent.decorators = [
       [class.uselect__holder--disabled]="disabled"
       (click)="toggleDropDown(true, $event)">
       <div class="uselect__select input-group"
-        [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < value.length)">
+        [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)">
         <div class="form-control">
-          <div *ngIf="value && isMultiple() && 0 < value.length"
+          <div *ngIf="value && isMultiple() && 0 < arrValue().length"
             class="uselect__selected-items"
             [uselectSortableData]="value">
             <ng-container
@@ -17441,7 +17449,7 @@ UselectComponent.decorators = [
               </div>
             </div>
           </div>
-          <div *ngIf="!value || 0 == value.length"
+          <div *ngIf="!value || 0 == arrValue().length"
             class="uselect__placeholder">
             {{placeholder}}
           </div>
@@ -17480,7 +17488,8 @@ UselectComponent.decorators = [
     :host {
       display: -webkit-box;
       display: -ms-flexbox;
-      display: flex; }
+      display: flex;
+      max-height: 100%; }
       :host .uselect__holder {
         width: 100%;
         position: relative; }
@@ -17490,13 +17499,17 @@ UselectComponent.decorators = [
           :host .uselect__holder.uselect__holder--disabled .form-control .btn {
             display: none; }
         :host .uselect__holder .uselect__select {
-          width: 100%; }
+          width: 100%;
+          max-height: 100%; }
           :host .uselect__holder .uselect__select > .form-control {
-            padding: 6px; }
+            padding: 6px;
+            max-height: 100%; }
           :host .uselect__holder .uselect__select .uselect__btn-dropdown {
             height: 100%; }
           :host .uselect__holder .uselect__select .uselect__selected-items {
-            width: 100%; }
+            width: 100%;
+            max-height: 100%;
+            overflow: auto; }
             :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item {
               display: -webkit-box;
               display: -ms-flexbox;
@@ -17520,6 +17533,9 @@ UselectComponent.decorators = [
                 overflow: hidden; }
               :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item .btn[uselectsortablehandle] {
                 cursor: move; }
+                :host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item .btn[uselectsortablehandle]:hover {
+                  background-color: #f8f9fa;
+                  border-color: #f8f9fa; }
         :host .uselect__holder .uselect__dropdown {
           position: absolute;
           z-index: 2147483647;
@@ -17577,6 +17593,7 @@ UselectComponent.propDecorators = {
     'placeholder': [{ type: Input, args: ['placeholder',] },],
     'service': [{ type: Input, args: ['service',] },],
     'serviceMethod': [{ type: Input, args: ['serviceMethod',] },],
+    'serviceMethodArgs': [{ type: Input, args: ['serviceMethodArgs',] },],
     'itemId': [{ type: Input, args: ['itemId',] },],
     'servicePipe': [{ type: Input, args: ['pipe',] },],
     'pipeArgs': [{ type: Input, args: ['pipeArgs',] },],
@@ -17719,6 +17736,25 @@ class UselectSortableIndexDirective {
         this.uselectIndexChange.emit(this.uselectSortableIndex);
         return false;
     }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onDrag(event) {
+        if (!event.target['classList'].contains('uselect__select-item')) {
+            return true;
+        }
+        let /** @type {?} */ parent = event.target['closest']('.uselect__selected-items'), /** @type {?} */ percent = 0.2;
+        if (parent['offsetHeight'] * (1 - percent) <
+            event.target['offsetTop'] - parent['scrollTop']) {
+            parent['scrollTop'] = parent['scrollTop'] + event.target['offsetHeight'];
+        }
+        else if (parent['offsetHeight'] * percent >
+            event.target['offsetTop'] - parent['scrollTop']) {
+            parent['scrollTop'] = parent['scrollTop'] - event.target['offsetHeight'];
+        }
+        return true;
+    }
 }
 UselectSortableIndexDirective.decorators = [
     { type: Directive, args: [{
@@ -17743,6 +17779,7 @@ UselectSortableIndexDirective.propDecorators = {
     'onMouseDown': [{ type: HostListener, args: ['mousedown', ['$event'],] },],
     'onDragEnd': [{ type: HostListener, args: ['dragend', ['$event'],] },],
     'onDragOver': [{ type: HostListener, args: ['dragover', ['$event'],] },],
+    'onDrag': [{ type: HostListener, args: ['drag', ['$event'],] },],
 };
 
 class UselectModule {

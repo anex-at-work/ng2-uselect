@@ -8,6 +8,7 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     placeholder?: string;
     service?: IUselectServiceItem;
     serviceMethod?: string;
+    serviceMethodArgs?: any[];
     itemId?: string;
     servicePipe?: (Observable, any?) => Observable<IUselectData[]>;
     pipeArgs?: any[];
@@ -19,11 +20,11 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     disabled?: boolean;
     uselectSearch: ElementRef;
     clickedOutside($event: any): void;
-    private value;
-    private items;
+    value: IUselectData[] | IUselectData;
+    items: IUselectData[];
+    search: string;
+    isDropDownOpen: boolean;
     private highlightedIndex;
-    private search;
-    private isDropDownOpen;
     private _onChange;
     private _onTouched;
     private _draggableIndexes;
@@ -39,11 +40,12 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     private selectedValue(item);
     private selectItem(item);
     removeItem(item: IUselectData): void;
-    private onSearchChange();
+    onSearchChange(): void;
     onItemDrop($event: any): void;
-    private onSearchKeydown($event);
-    private isMultiple();
-    private toggleDropDown(isOpen?, $event?);
+    onSearchKeydown($event: KeyboardEvent): void;
+    isMultiple(): boolean;
+    toggleDropDown(isOpen?: boolean, $event?: MouseEvent): void;
     private isCurrent(item);
-    private trackByIndex(index, obj);
+    arrValue(): IUselectData[];
+    trackByIndex(index: number, obj: any): any;
 }
