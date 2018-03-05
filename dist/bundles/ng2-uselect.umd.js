@@ -15784,9 +15784,9 @@ var UselectComponent = /** @class */ (function () {
         if (!this.service[this.serviceMethod])
             throw new Error("Method '" + this.serviceMethod + "' are missed in service");
         this.service[this.serviceMethod]
-            .apply(this.service, this.serviceMethodArgs && 0 == this.serviceMethodArgs.length
-            ? [this.search]
-            : this.serviceMethodArgs)
+            .apply(this.service, !!this.serviceMethodArgs && 0 != this.serviceMethodArgs.length
+            ? this.serviceMethodArgs
+            : [this.search])
             .pipe(function (res) { return _this.servicePipe.apply(undefined, [res].concat(_this.pipeArgs)); })
             .subscribe(function (data) {
             _this.items = /** @type {?} */ (data);
