@@ -17124,6 +17124,7 @@ class UselectComponent {
             return res;
         };
         this.disabled = false;
+        this.disableEmpty = false;
         this.search = '';
         this.isDropDownOpen = false;
         this.highlightedIndex = 0;
@@ -17442,7 +17443,8 @@ UselectComponent.decorators = [
                 {{selectedValue(value)}}
               </ng-container>
               <div class="btn-group ml-auto">
-                <button type="button" class="btn btn-light btn-sm" aria-label="Move"
+                <button *ngIf="!disableEmpty"
+                  type="button" class="btn btn-light btn-sm" aria-label="Move"
                   (click)="removeItem(selectedItem)">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -17603,6 +17605,7 @@ UselectComponent.propDecorators = {
     'selectTemplate': [{ type: Input, args: ['selectTemplate',] },],
     'sortKey': [{ type: Input, args: ['sortKey',] },],
     'disabled': [{ type: Input, args: ['disabled',] },],
+    'disableEmpty': [{ type: Input, args: ['disableEmpty',] },],
     'uselectSearch': [{ type: ViewChild, args: ['uselectSearch',] },],
     'clickedOutside': [{ type: HostListener, args: ['document:click', ['$event'],] },],
 };

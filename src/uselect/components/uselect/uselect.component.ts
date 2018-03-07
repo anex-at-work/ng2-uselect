@@ -48,6 +48,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('selectTemplate') selectTemplate?: TemplateRef<any>;
   @Input('sortKey') sortKey?: string;
   @Input('disabled') disabled?: boolean = false;
+  @Input('disableEmpty') disableEmpty?: boolean = false;
   @ViewChild('uselectSearch') uselectSearch: ElementRef;
   @HostListener('document:click', ['$event'])
   clickedOutside($event) {

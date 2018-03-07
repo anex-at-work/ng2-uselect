@@ -18,6 +18,7 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     selectTemplate?: TemplateRef<any>;
     sortKey?: string;
     disabled?: boolean;
+    disableEmpty?: boolean;
     uselectSearch: ElementRef;
     clickedOutside($event: any): void;
     value: IUselectData[] | IUselectData;
