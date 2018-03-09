@@ -17102,6 +17102,15 @@ var lodash = createCommonjsModule(function (module, exports) {
 class UselectDefaultConfig {
     constructor() {
         this.placeholder = 'Select an item...';
+        this.ignoreClickElements = [
+            'a',
+            'button',
+            'input',
+            'textarea',
+            'select',
+            'option',
+            'label'
+        ];
     }
 }
 UselectDefaultConfig.decorators = [
@@ -17337,7 +17346,9 @@ class UselectComponent {
         if (this.disabled || !this.service)
             return;
         if ($event) {
-            if ('a' == $event.target['tagName'].toLowerCase())
+            if (-1 !==
+                this.defaultConfig.ignoreClickElements.indexOf($event.target['tagName'].toLowerCase()) &&
+                !$event.target['classList'].contains('uselect__btn-dropdown'))
                 return;
             $event.preventDefault();
             $event.stopPropagation();
@@ -17399,10 +17410,10 @@ UselectComponent.decorators = [
       class="uselect__holder"
       tabindex="0"
       [class.uselect__dropdown--open]="isDropDownOpen"
-      [class.uselect__holder--disabled]="disabled"
-      (click)="toggleDropDown(true, $event)">
+      [class.uselect__holder--disabled]="disabled">
       <div class="uselect__select input-group"
-        [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)">
+        [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)"
+        (click)="toggleDropDown(true, $event)">
         <div class="form-control">
           <div *ngIf="value && isMultiple() && 0 < arrValue().length"
             class="uselect__selected-items"

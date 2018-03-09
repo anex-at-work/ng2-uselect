@@ -2,10 +2,10 @@
   class="uselect__holder"
   tabindex="0"
   [class.uselect__dropdown--open]="isDropDownOpen"
-  [class.uselect__holder--disabled]="disabled"
-  (click)="toggleDropDown(true, $event)">
+  [class.uselect__holder--disabled]="disabled">
   <div class="uselect__select input-group"
-    [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)">
+    [class.uselect___select--has-value]="(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)"
+    (click)="toggleDropDown(true, $event)">
     <div class="form-control">
       <div *ngIf="value && isMultiple() && 0 < arrValue().length"
         class="uselect__selected-items"

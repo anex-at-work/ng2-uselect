@@ -229,7 +229,14 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   public toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
     if (this.disabled || !this.service) return;
     if ($event) {
-      if ('a' == $event.target['tagName'].toLowerCase()) return;
+      if (
+        -1 !==
+          this.defaultConfig.ignoreClickElements.indexOf(
+            $event.target['tagName'].toLowerCase()
+          ) &&
+        !$event.target['classList'].contains('uselect__btn-dropdown')
+      )
+        return;
       $event.preventDefault();
       $event.stopPropagation();
       if (
