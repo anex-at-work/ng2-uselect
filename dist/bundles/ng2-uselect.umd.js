@@ -15675,7 +15675,7 @@ var UselectComponent = /** @class */ (function () {
             }));
             this.normalizeSort();
         }
-        else {
+        else if (!this.isMultiple()) {
             if (!this.value)
                 return;
             if (!this.value[this.itemId])

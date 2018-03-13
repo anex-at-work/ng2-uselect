@@ -1,6 +1,6 @@
 {
   "name": "ng2-uselect",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Universal select component with sortable",
   "main": "./dist/bundles/ng2-uselect.umd.js",
   "module": "./dist/ng2-uselect.es5.js",

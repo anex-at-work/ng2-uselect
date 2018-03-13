@@ -17177,7 +17177,7 @@ class UselectComponent {
             }));
             this.normalizeSort();
         }
-        else {
+        else if (!this.isMultiple()) {
             if (!this.value)
                 return;
             if (!this.value[this.itemId])
