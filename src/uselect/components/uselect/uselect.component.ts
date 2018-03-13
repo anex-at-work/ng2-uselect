@@ -91,6 +91,9 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
         return val[this.sortKey];
       });
       this.normalizeSort();
+    } else {
+      if (!this.value) return;
+      if (!this.value[this.itemId]) this.value = undefined;
     }
   }
 

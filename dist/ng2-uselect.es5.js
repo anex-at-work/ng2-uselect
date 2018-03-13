@@ -15672,6 +15672,12 @@ var UselectComponent = /** @class */ (function () {
             }));
             this.normalizeSort();
         }
+        else {
+            if (!this.value)
+                return;
+            if (!this.value[this.itemId])
+                this.value = undefined;
+        }
     };
     /**
      * @param {?} fn
