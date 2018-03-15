@@ -17350,7 +17350,7 @@ class UselectComponent {
      * @return {?}
      */
     isScalar() {
-        return !this.isMultiple() && !(this.value instanceof Object);
+        return !this.isMultiple() && 'object' !== typeof this.value;
     }
     /**
      * @param {?=} isOpen

@@ -15848,7 +15848,7 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.isScalar = function () {
-        return !this.isMultiple() && !(this.value instanceof Object);
+        return !this.isMultiple() && 'object' !== typeof this.value;
     };
     /**
      * @param {?=} isOpen
