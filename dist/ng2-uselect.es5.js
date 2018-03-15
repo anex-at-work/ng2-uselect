@@ -15848,7 +15848,9 @@ var UselectComponent = /** @class */ (function () {
      * @return {?}
      */
     UselectComponent.prototype.isScalar = function () {
-        return !this.isMultiple() && 'object' !== typeof this.value;
+        return (!this.isMultiple() &&
+            'object' !== typeof this.value &&
+            'undefined' !== typeof this.value);
     };
     /**
      * @param {?=} isOpen

@@ -231,7 +231,11 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   public isScalar(): boolean {
-    return !this.isMultiple() && 'object' !== typeof this.value;
+    return (
+      !this.isMultiple() &&
+      'object' !== typeof this.value &&
+      'undefined' !== typeof this.value
+    );
   }
 
   public toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
