@@ -45,6 +45,7 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     onItemDrop($event: any): void;
     onSearchKeydown($event: KeyboardEvent): void;
     isMultiple(): boolean;
+    isScalar(): boolean;
     toggleDropDown(isOpen?: boolean, $event?: MouseEvent): void;
     private isCurrent(item);
     arrValue(): IUselectData[];

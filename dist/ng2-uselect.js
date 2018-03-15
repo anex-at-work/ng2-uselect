@@ -17180,7 +17180,7 @@ class UselectComponent {
         else if (!this.isMultiple()) {
             if (!this.value)
                 return;
-            if (!this.value[this.itemId])
+            if (!this.isScalar() && !this.value[this.itemId])
                 this.value = undefined;
         }
     }
@@ -17264,7 +17264,10 @@ class UselectComponent {
             this.normalizeSort();
         }
         else {
-            this.value = item;
+            if (this.isScalar())
+                this.value = item[this.itemId];
+            else
+                this.value = item;
             setTimeout(_$$1 => {
                 this.isDropDownOpen = false;
                 if ('' != this.search) {
@@ -17344,6 +17347,12 @@ class UselectComponent {
         return this.value instanceof Array;
     }
     /**
+     * @return {?}
+     */
+    isScalar() {
+        return !this.isMultiple() && !(this.value instanceof Object);
+    }
+    /**
      * @param {?=} isOpen
      * @param {?=} $event
      * @return {?}
@@ -17391,6 +17400,8 @@ class UselectComponent {
                 return val[this.itemId] == item[this.itemId];
             });
         }
+        if (this.isScalar() && this.value == item[this.itemId])
+            return true;
         return ((this.value))[this.itemId] == item[this.itemId];
     }
     /**

@@ -15678,7 +15678,7 @@ var UselectComponent = /** @class */ (function () {
         else if (!this.isMultiple()) {
             if (!this.value)
                 return;
-            if (!this.value[this.itemId])
+            if (!this.isScalar() && !this.value[this.itemId])
                 this.value = undefined;
         }
     };
@@ -15763,7 +15763,10 @@ var UselectComponent = /** @class */ (function () {
             this.normalizeSort();
         }
         else {
-            this.value = item;
+            if (this.isScalar())
+                this.value = item[this.itemId];
+            else
+                this.value = item;
             setTimeout(function (_$$1) {
                 _this.isDropDownOpen = false;
                 if ('' != _this.search) {
@@ -15845,6 +15848,12 @@ var UselectComponent = /** @class */ (function () {
         return this.value instanceof Array;
     };
     /**
+     * @return {?}
+     */
+    UselectComponent.prototype.isScalar = function () {
+        return !this.isMultiple() && !(this.value instanceof Object);
+    };
+    /**
      * @param {?=} isOpen
      * @param {?=} $event
      * @return {?}
@@ -15895,6 +15904,8 @@ var UselectComponent = /** @class */ (function () {
                 return val[_this.itemId] == item[_this.itemId];
             });
         }
+        if (this.isScalar() && this.value == item[this.itemId])
+            return true;
         return ((this.value))[this.itemId] == item[this.itemId];
     };
     /**

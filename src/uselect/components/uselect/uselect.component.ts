@@ -93,7 +93,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       this.normalizeSort();
     } else if (!this.isMultiple()) {
       if (!this.value) return;
-      if (!this.value[this.itemId]) this.value = undefined;
+      if (!this.isScalar() && !this.value[this.itemId]) this.value = undefined;
     }
   }
 
@@ -157,7 +157,8 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
       } else (<IUselectData[]>this.value).push(item);
       this.normalizeSort();
     } else {
-      this.value = item;
+      if (this.isScalar()) this.value = item[this.itemId];
+      else this.value = item;
       setTimeout(_ => {
         this.isDropDownOpen = false;
         if ('' != this.search) {
@@ -229,6 +230,10 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
     return this.value instanceof Array;
   }
 
+  public isScalar(): boolean {
+    return !this.isMultiple() && !(this.value instanceof Object);
+  }
+
   public toggleDropDown(isOpen: boolean = true, $event?: MouseEvent): void {
     if (this.disabled || !this.service) return;
     if ($event) {
@@ -270,6 +275,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
         return val[this.itemId] == item[this.itemId];
       });
     }
+    if (this.isScalar() && this.value == item[this.itemId]) return true;
     return (<IUselectData>this.value)[this.itemId] == item[this.itemId];
   }
 
