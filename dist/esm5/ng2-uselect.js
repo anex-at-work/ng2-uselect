@@ -1,8 +1,7 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/forms'), require('lodash/lodash'), require('@angular/common')) :
-	typeof define === 'function' && define.amd ? define('ng2-uselect', ['exports', '@angular/core', '@angular/forms', 'lodash/lodash', '@angular/common'], factory) :
-	(factory((global['ng2-uselect'] = {}),global.ng.core,global.ng.forms,global.lodash,global.ng.common));
-}(this, (function (exports,core,forms,lodash,common) { 'use strict';
+import { Injectable, Component, Input, ViewChild, ElementRef, HostListener, forwardRef, Directive, Output, EventEmitter, ContentChild, NgModule } from '@angular/core';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { sortBy, remove, some } from 'lodash/lodash';
+import { CommonModule } from '@angular/common';
 
 var UselectDefaultConfig = /** @class */ (function () {
     function UselectDefaultConfig() {
@@ -20,7 +19,7 @@ var UselectDefaultConfig = /** @class */ (function () {
     return UselectDefaultConfig;
 }());
 UselectDefaultConfig.decorators = [
-    { type: core.Injectable },
+    { type: Injectable },
 ];
 var UselectComponent = /** @class */ (function () {
     function UselectComponent(defaultConfig) {
@@ -55,7 +54,7 @@ var UselectComponent = /** @class */ (function () {
         if (this.isMultiple() &&
             this.sortKey &&
             ((this.value)).length) {
-            this.value = (lodash.sortBy(this.value, function (val) {
+            this.value = (sortBy(this.value, function (val) {
                 if (!val)
                     return;
                 if (!(val instanceof Object) ||
@@ -115,7 +114,7 @@ var UselectComponent = /** @class */ (function () {
         var _this = this;
         if (this.isMultiple()) {
             if (this.isCurrent(item)) {
-                lodash.remove((this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
+                remove((this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
             }
             else {
                 if (this.deleteKey && item[this.deleteKey])
@@ -153,7 +152,7 @@ var UselectComponent = /** @class */ (function () {
                 finded[this.deleteKey] = true;
             }
             else {
-                lodash.remove((this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
+                remove((this.value), function (val) { return val[_this.itemId] == item[_this.itemId]; });
             }
             this.normalizeSort();
         }
@@ -247,7 +246,7 @@ var UselectComponent = /** @class */ (function () {
         if (this.isMultiple()) {
             if (0 == ((this.value)).length)
                 return false;
-            return lodash.some((this.value), function (val) {
+            return some((this.value), function (val) {
                 return (val[_this.itemId] == item[_this.itemId] &&
                     (!_this.deleteKey || !item[_this.deleteKey]));
             });
@@ -267,14 +266,14 @@ var UselectComponent = /** @class */ (function () {
     return UselectComponent;
 }());
 UselectComponent.decorators = [
-    { type: core.Component, args: [{
+    { type: Component, args: [{
                 selector: 'uselect',
                 template: "<div\n  class=\"uselect__holder\"\n  tabindex=\"0\"\n  [class.uselect__dropdown--open]=\"isDropDownOpen\"\n  [class.uselect__holder--disabled]=\"disabled\">\n  <div class=\"uselect__select input-group\"\n    [class.uselect___select--has-value]=\"(!isMultiple() && value) || (isMultiple() && 0 < arrValue().length)\"\n    (click)=\"toggleDropDown(true, $event)\">\n    <div class=\"form-control\">\n      <div *ngIf=\"value && isMultiple() && 0 < arrValue().length\"\n        class=\"uselect__selected-items\"\n        [uselectSortableData]=\"value\">\n        <ng-container\n          *ngFor=\"let selectedItem of value; let i = index; trackByIndex\">\n          <div *ngIf=\"!deleteKey || !selectedItem[deleteKey]\"\n            class=\"uselect__select-item\" [uselectSortableIndex]=\"sortKey ? i : undefined\"\n            (onUselectIndexChange)=\"onUselectIndexChange($event)\"\n            (onUselectDragstart)=\"onUselectDragstart($event)\">\n            <span class=\"uselect__select-item-template\">\n              <ng-container\n                *ngTemplateOutlet=\"selectTemplate; context: {$implicit: selectedItem}\"></ng-container>\n              <ng-container\n                *ngIf=\"!selectTemplate\">\n                {{selectedValue(selectedItem)}}\n              </ng-container>\n            </span>\n            <div class=\"btn-group ml-auto\">\n              <button *ngIf=\"sortKey\"\n                type=\"button\" class=\"btn btn-light btn-sm\" aria-label=\"Move\"\n                uselectSortableHandle>\n                <span aria-hidden=\"true\">&#x2195;</span>\n              </button>\n              <button type=\"button\" class=\"btn btn-light btn-sm\" aria-label=\"Move\"\n                (click)=\"removeItem(selectedItem)\">\n                <span aria-hidden=\"true\">&times;</span>\n              </button>\n            </div>\n          </div>\n        </ng-container>\n      </div>\n      <div *ngIf=\"value && !isMultiple() && (!deleteKey || !value[deleteKey])\" class=\"uselect__selected-items\">\n        <div class=\"uselect__select-item\">\n          <ng-container\n            *ngTemplateOutlet=\"selectTemplate; context: {$implicit: value}\"></ng-container>\n          <ng-container\n            *ngIf=\"!selectTemplate\">\n            {{selectedValue(value)}}\n          </ng-container>\n          <div class=\"btn-group ml-auto\">\n            <button *ngIf=\"!disableEmpty\"\n              type=\"button\" class=\"btn btn-light btn-sm\" aria-label=\"Move\"\n              (click)=\"removeItem(selectedItem)\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n        </div>\n      </div>\n      <div *ngIf=\"(!value || (deleteKey && (value && value[deleteKey]))) || 0 == arrValue().length\"\n        class=\"uselect__placeholder\">\n        {{placeholder}}\n      </div>\n    </div>\n    <div *ngIf=\"service && isMultiple()\" class=\"input-group-append\">\n      <button class=\"uselect__btn-dropdown btn btn-outline-secondary dropdown-toggle\" type=\"button\" (click)=\"toggleDropDown(!isDropDownOpen)\"></button>\n    </div>\n  </div>\n  <div class=\"uselect__dropdown form-control\">\n    <div class=\"uselect__search input-group\">\n      <input type=\"text\" class=\"form-control\"\n        [(ngModel)]=\"search\"\n        (ngModelChange)=\"onSearchChange()\"\n        (keydown)=\"onSearchKeydown($event)\"\n        tabindex=\"0\"\n        #uselectSearch />\n    </div>\n    <div class=\"uselect__items\">\n      <div *ngFor=\"let dataItem of items; let i = index; trackByIndex\"\n        class=\"uselect__item\"\n        [class.uselect__item--selected]=\"isCurrent(dataItem)\"\n        [class.uselect__item--highlighted]=\"highlightedIndex == i\"\n        (click)=\"selectItem(dataItem)\">\n        <ng-container\n          *ngTemplateOutlet=\"dropDownTemplate; context: {$implicit: dataItem}\">\n        </ng-container>\n        <ng-container *ngIf=\"!dropDownTemplate\">\n          {{dropDownValue(dataItem)}}\n        </ng-container>\n      </div>\n    </div>\n  </div>\n</div>\n",
                 styles: [":host{display:-webkit-box;display:-ms-flexbox;display:flex;max-height:100%}:host .uselect__holder{width:100%;position:relative}:host .uselect__holder.uselect__holder--disabled .form-control{background-color:#e9ecef;color:#212529}:host .uselect__holder.uselect__holder--disabled .form-control .btn{display:none}:host .uselect__holder .uselect__select{width:100%;max-height:100%}:host .uselect__holder .uselect__select>.form-control{padding:6px;max-height:100%}:host .uselect__holder .uselect__select .uselect__btn-dropdown{height:100%}:host .uselect__holder .uselect__select .uselect__selected-items{width:100%;max-height:100%;overflow:auto}:host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:0 3px}:host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item+.uselect__select-item{margin-top:3px}:host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item.uselect__select-item--draggable{-webkit-transform:scale(.95);transform:scale(.95);border:1px dashed #cecece;border-radius:2px;background:rgba(255,255,255,.8)}:host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item span.uselect__select-item-template{width:100%;max-width:100%;overflow:hidden}:host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item .btn[uselectsortablehandle]{cursor:move}:host .uselect__holder .uselect__select .uselect__selected-items .uselect__select-item .btn[uselectsortablehandle]:hover{background-color:#f8f9fa;border-color:#f8f9fa}:host .uselect__holder .uselect__dropdown{position:absolute;z-index:2147483647;display:none}:host .uselect__holder.uselect__dropdown--open .uselect__select>div{border-bottom-left-radius:0}:host .uselect__holder.uselect__dropdown--open .uselect__select .uselect__btn-dropdown{border-bottom-right-radius:0}:host .uselect__holder.uselect__dropdown--open .uselect__dropdown{display:block;border-top-left-radius:0;border-top-right-radius:0;border-top:none;padding:0;width:100%}:host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__search{width:100%;padding:5px}:host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__items{max-height:33vh;overflow-x:hidden;overflow-y:auto}:host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__items .uselect__item{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:5px 8px}:host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__items .uselect__item.uselect__item--highlighted,:host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__items .uselect__item:hover{cursor:pointer;background-color:#f8f9fa;color:#212529}:host .uselect__holder.uselect__dropdown--open .uselect__dropdown .uselect__items .uselect__item.uselect__item--selected{background-color:#007bff;color:#fff}"],
                 providers: [
                     {
-                        provide: forms.NG_VALUE_ACCESSOR,
-                        useExisting: core.forwardRef(function () { return UselectComponent; }),
+                        provide: NG_VALUE_ACCESSOR,
+                        useExisting: forwardRef(function () { return UselectComponent; }),
                         multi: true
                     }
                 ]
@@ -284,23 +283,23 @@ UselectComponent.ctorParameters = function () { return [
     { type: UselectDefaultConfig, },
 ]; };
 UselectComponent.propDecorators = {
-    "placeholder": [{ type: core.Input, args: ['placeholder',] },],
-    "service": [{ type: core.Input, args: ['service',] },],
-    "serviceMethod": [{ type: core.Input, args: ['serviceMethod',] },],
-    "serviceMethodArgs": [{ type: core.Input, args: ['serviceMethodArgs',] },],
-    "itemId": [{ type: core.Input, args: ['itemId',] },],
-    "servicePipe": [{ type: core.Input, args: ['pipe',] },],
-    "pipeArgs": [{ type: core.Input, args: ['pipeArgs',] },],
-    "dropDownValueFunc": [{ type: core.Input, args: ['dropDownValue',] },],
-    "selectedValueFunc": [{ type: core.Input, args: ['selectedValue',] },],
-    "dropDownTemplate": [{ type: core.Input, args: ['dropDownTemplate',] },],
-    "selectTemplate": [{ type: core.Input, args: ['selectTemplate',] },],
-    "sortKey": [{ type: core.Input, args: ['sortKey',] },],
-    "disabled": [{ type: core.Input, args: ['disabled',] },],
-    "disableEmpty": [{ type: core.Input, args: ['disableEmpty',] },],
-    "deleteKey": [{ type: core.Input, args: ['deleteKey',] },],
-    "uselectSearch": [{ type: core.ViewChild, args: ['uselectSearch',] },],
-    "clickedOutside": [{ type: core.HostListener, args: ['document:click', ['$event'],] },],
+    "placeholder": [{ type: Input, args: ['placeholder',] },],
+    "service": [{ type: Input, args: ['service',] },],
+    "serviceMethod": [{ type: Input, args: ['serviceMethod',] },],
+    "serviceMethodArgs": [{ type: Input, args: ['serviceMethodArgs',] },],
+    "itemId": [{ type: Input, args: ['itemId',] },],
+    "servicePipe": [{ type: Input, args: ['pipe',] },],
+    "pipeArgs": [{ type: Input, args: ['pipeArgs',] },],
+    "dropDownValueFunc": [{ type: Input, args: ['dropDownValue',] },],
+    "selectedValueFunc": [{ type: Input, args: ['selectedValue',] },],
+    "dropDownTemplate": [{ type: Input, args: ['dropDownTemplate',] },],
+    "selectTemplate": [{ type: Input, args: ['selectTemplate',] },],
+    "sortKey": [{ type: Input, args: ['sortKey',] },],
+    "disabled": [{ type: Input, args: ['disabled',] },],
+    "disableEmpty": [{ type: Input, args: ['disableEmpty',] },],
+    "deleteKey": [{ type: Input, args: ['deleteKey',] },],
+    "uselectSearch": [{ type: ViewChild, args: ['uselectSearch',] },],
+    "clickedOutside": [{ type: HostListener, args: ['document:click', ['$event'],] },],
 };
 var UselectSortableDataDirective = /** @class */ (function () {
     function UselectSortableDataDirective(el) {
@@ -316,17 +315,17 @@ var UselectSortableDataDirective = /** @class */ (function () {
     return UselectSortableDataDirective;
 }());
 UselectSortableDataDirective.decorators = [
-    { type: core.Directive, args: [{
+    { type: Directive, args: [{
                 selector: '[uselectSortableData]'
             },] },
 ];
 UselectSortableDataDirective.ctorParameters = function () { return [
-    { type: core.ElementRef, },
+    { type: ElementRef, },
 ]; };
 UselectSortableDataDirective.propDecorators = {
-    "uselectSortableData": [{ type: core.Input, args: ['uselectSortableData',] },],
-    "onDragStart": [{ type: core.HostListener, args: ['dragstart', ['$event'],] },],
-    "onDragEnd": [{ type: core.HostListener, args: ['dragend', ['$event'],] },],
+    "uselectSortableData": [{ type: Input, args: ['uselectSortableData',] },],
+    "onDragStart": [{ type: HostListener, args: ['dragstart', ['$event'],] },],
+    "onDragEnd": [{ type: HostListener, args: ['dragend', ['$event'],] },],
 };
 var UselectSortableHandle = /** @class */ (function () {
     function UselectSortableHandle() {
@@ -354,20 +353,20 @@ var UselectSortableHandle = /** @class */ (function () {
     return UselectSortableHandle;
 }());
 UselectSortableHandle.decorators = [
-    { type: core.Directive, args: [{
+    { type: Directive, args: [{
                 selector: '[uselectSortableHandle]'
             },] },
 ];
 UselectSortableHandle.propDecorators = {
-    "onmousedown": [{ type: core.HostListener, args: ['mousedown',] },],
-    "onmouseup": [{ type: core.HostListener, args: ['mouseup',] },],
-    "onmouseleave": [{ type: core.HostListener, args: ['mouseleave',] },],
+    "onmousedown": [{ type: HostListener, args: ['mousedown',] },],
+    "onmouseup": [{ type: HostListener, args: ['mouseup',] },],
+    "onmouseleave": [{ type: HostListener, args: ['mouseleave',] },],
 };
 var UselectSortableIndexDirective = /** @class */ (function () {
     function UselectSortableIndexDirective(el) {
         this.el = el;
-        this.uselectIndexChange = new core.EventEmitter();
-        this.uselectDragstart = new core.EventEmitter();
+        this.uselectIndexChange = new EventEmitter();
+        this.uselectDragstart = new EventEmitter();
     }
     UselectSortableIndexDirective.prototype.onMouseDown = function (event) {
         if (undefined == this.uselectSortableIndex)
@@ -409,7 +408,7 @@ var UselectSortableIndexDirective = /** @class */ (function () {
     return UselectSortableIndexDirective;
 }());
 UselectSortableIndexDirective.decorators = [
-    { type: core.Directive, args: [{
+    { type: Directive, args: [{
                 selector: '[uselectSortableIndex]',
                 host: {
                     draggable: 'false',
@@ -418,17 +417,17 @@ UselectSortableIndexDirective.decorators = [
             },] },
 ];
 UselectSortableIndexDirective.ctorParameters = function () { return [
-    { type: core.ElementRef, },
+    { type: ElementRef, },
 ]; };
 UselectSortableIndexDirective.propDecorators = {
-    "uselectSortableIndex": [{ type: core.Input, args: ['uselectSortableIndex',] },],
-    "uselectIndexChange": [{ type: core.Output, args: ['onUselectIndexChange',] },],
-    "uselectDragstart": [{ type: core.Output, args: ['onUselectDragstart',] },],
-    "uselectSortableHandler": [{ type: core.ContentChild, args: [UselectSortableHandle,] },],
-    "onMouseDown": [{ type: core.HostListener, args: ['mousedown', ['$event'],] },],
-    "onDragEnd": [{ type: core.HostListener, args: ['dragend', ['$event'],] },],
-    "onDragOver": [{ type: core.HostListener, args: ['dragover', ['$event'],] },],
-    "onDrag": [{ type: core.HostListener, args: ['drag', ['$event'],] },],
+    "uselectSortableIndex": [{ type: Input, args: ['uselectSortableIndex',] },],
+    "uselectIndexChange": [{ type: Output, args: ['onUselectIndexChange',] },],
+    "uselectDragstart": [{ type: Output, args: ['onUselectDragstart',] },],
+    "uselectSortableHandler": [{ type: ContentChild, args: [UselectSortableHandle,] },],
+    "onMouseDown": [{ type: HostListener, args: ['mousedown', ['$event'],] },],
+    "onDragEnd": [{ type: HostListener, args: ['dragend', ['$event'],] },],
+    "onDragOver": [{ type: HostListener, args: ['dragover', ['$event'],] },],
+    "onDrag": [{ type: HostListener, args: ['drag', ['$event'],] },],
 };
 var UselectModule = /** @class */ (function () {
     function UselectModule() {
@@ -436,8 +435,8 @@ var UselectModule = /** @class */ (function () {
     return UselectModule;
 }());
 UselectModule.decorators = [
-    { type: core.NgModule, args: [{
-                imports: [common.CommonModule, forms.FormsModule],
+    { type: NgModule, args: [{
+                imports: [CommonModule, FormsModule],
                 declarations: [
                     UselectComponent,
                     UselectSortableDataDirective,
@@ -449,14 +448,5 @@ UselectModule.decorators = [
             },] },
 ];
 
-exports.UselectModule = UselectModule;
-exports.ɵb = UselectDefaultConfig;
-exports.ɵa = UselectComponent;
-exports.ɵc = UselectSortableDataDirective;
-exports.ɵd = UselectSortableHandle;
-exports.ɵe = UselectSortableIndexDirective;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
-//# sourceMappingURL=ng2-uselect.umd.js.map
+export { UselectModule, UselectDefaultConfig as ɵb, UselectComponent as ɵa, UselectSortableDataDirective as ɵc, UselectSortableHandle as ɵd, UselectSortableIndexDirective as ɵe };
+//# sourceMappingURL=ng2-uselect.js.map

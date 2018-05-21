@@ -10,8 +10,8 @@ import {
   forwardRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import _ from 'lodash/lodash';
+import { Observable } from 'rxjs';
+import * as _ from 'lodash/lodash';
 
 import { UselectDefaultConfig } from './../../classes/uselect-default-config.class';
 import {
@@ -49,6 +49,7 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   @Input('sortKey') sortKey?: string;
   @Input('disabled') disabled?: boolean = false;
   @Input('disableEmpty') disableEmpty?: boolean = false;
+  @Input('deleteKey') deleteKey?: string;
   @ViewChild('uselectSearch') uselectSearch: ElementRef;
   @HostListener('document:click', ['$event'])
   clickedOutside($event) {
@@ -154,11 +155,17 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
           <IUselectData[]>this.value,
           val => val[this.itemId] == item[this.itemId]
         );
-      } else (<IUselectData[]>this.value).push(item);
+      } else {
+        if (this.deleteKey && item[this.deleteKey])
+          item[this.deleteKey] = false;
+        else (<IUselectData[]>this.value).push(item);
+      }
       this.normalizeSort();
     } else {
       if (this.isScalar()) this.value = item[this.itemId];
       else this.value = item;
+      if (this.deleteKey && this.value[this.deleteKey])
+        this.value[this.deleteKey] = false;
       setTimeout(_ => {
         this.isDropDownOpen = false;
         if ('' != this.search) {
@@ -174,13 +181,21 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   public removeItem(item: IUselectData): void {
     if (this.disabled) return;
     if (this.isMultiple()) {
-      _.remove(
-        <IUselectData[]>this.value,
-        val => val[this.itemId] == item[this.itemId]
-      );
+      if (this.deleteKey) {
+        const finded = (<IUselectData[]>this.value).find(
+          val => val[this.itemId] == item[this.itemId]
+        );
+        finded[this.deleteKey] = true;
+      } else {
+        _.remove(
+          <IUselectData[]>this.value,
+          val => val[this.itemId] == item[this.itemId]
+        );
+      }
       this.normalizeSort();
     } else {
-      this.value = undefined;
+      if (this.deleteKey) this.value[this.deleteKey] = true;
+      else this.value = undefined;
     }
     this._onChange(this.value);
   }
@@ -272,14 +287,26 @@ export class UselectComponent implements OnInit, ControlValueAccessor {
   }
 
   private isCurrent(item: IUselectData): boolean {
-    if (!this.value) return false;
+    if (
+      !this.value ||
+      (this.value && this.deleteKey && this.value[this.deleteKey])
+    )
+      return false;
     if (this.isMultiple()) {
       if (0 == (<IUselectData[]>this.value).length) return false;
       return _.some(<IUselectData[]>this.value, val => {
-        return val[this.itemId] == item[this.itemId];
+        return (
+          val[this.itemId] == item[this.itemId] &&
+          (!this.deleteKey || !item[this.deleteKey])
+        );
       });
     }
-    if (this.isScalar() && this.value == item[this.itemId]) return true;
+    if (
+      this.isScalar() &&
+      this.value == item[this.itemId] &&
+      (!this.deleteKey || !item[this.deleteKey])
+    )
+      return true;
     return (<IUselectData>this.value)[this.itemId] == item[this.itemId];
   }
 

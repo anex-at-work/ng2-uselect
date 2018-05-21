@@ -1,6 +1,6 @@
 import { OnInit, TemplateRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { UselectDefaultConfig } from './../../classes/uselect-default-config.class';
 import { IUselectData, IUselectServiceItem } from './../../classes/uselect-service-items.interface';
 export declare class UselectComponent implements OnInit, ControlValueAccessor {
@@ -19,6 +19,7 @@ export declare class UselectComponent implements OnInit, ControlValueAccessor {
     sortKey?: string;
     disabled?: boolean;
     disableEmpty?: boolean;
+    deleteKey?: string;
     uselectSearch: ElementRef;
     clickedOutside($event: any): void;
     value: IUselectData[] | IUselectData;

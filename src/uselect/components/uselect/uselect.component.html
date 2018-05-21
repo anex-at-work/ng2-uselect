@@ -12,7 +12,8 @@
         [uselectSortableData]="value">
         <ng-container
           *ngFor="let selectedItem of value; let i = index; trackByIndex">
-          <div class="uselect__select-item" [uselectSortableIndex]="sortKey ? i : undefined"
+          <div *ngIf="!deleteKey || !selectedItem[deleteKey]"
+            class="uselect__select-item" [uselectSortableIndex]="sortKey ? i : undefined"
             (onUselectIndexChange)="onUselectIndexChange($event)"
             (onUselectDragstart)="onUselectDragstart($event)">
             <span class="uselect__select-item-template">
@@ -37,7 +38,7 @@
           </div>
         </ng-container>
       </div>
-      <div *ngIf="value && !isMultiple()" class="uselect__selected-items">
+      <div *ngIf="value && !isMultiple() && (!deleteKey || !value[deleteKey])" class="uselect__selected-items">
         <div class="uselect__select-item">
           <ng-container
             *ngTemplateOutlet="selectTemplate; context: {$implicit: value}"></ng-container>
@@ -54,7 +55,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!value || 0 == arrValue().length"
+      <div *ngIf="(!value || (deleteKey && (value && value[deleteKey]))) || 0 == arrValue().length"
         class="uselect__placeholder">
         {{placeholder}}
       </div>
